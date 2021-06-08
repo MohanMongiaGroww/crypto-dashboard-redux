@@ -1,12 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-export class App extends Component {
+class App extends Component {
+    state = {
+        coins: [],
+    };
+
+    componentDidMount() { 
+        // api call
+    }
+
     render() {
-        return (
-            <div>
-                Hi APP !!
-            </div>
-        )
+        return <div>Hi APP !!</div>;
     }
 }
 
