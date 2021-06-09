@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-export class App extends Component {
+import HomePage from "./views/HomePage/HomePage";
+// import CoinPage from "./views/CoinPage/CoinPage";
+
+class App extends Component {
     render() {
         return (
-            <div>
-                Hi APP !!
-            </div>
+            <HomePage />
         )
     }
 }
