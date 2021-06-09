@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 
+import HomePage from "./views/HomePage/HomePage";
+// import CoinPage from "./views/CoinPage/CoinPage";
+
 class App extends Component {
-    state = {
-        coins: [],
-    };
-
-    componentDidMount() { 
-        // api call
-    }
-
     render() {
-        return <div>Hi APP !!</div>;
+        return (
+            <HomePage />
+        )
     }
 }
 
