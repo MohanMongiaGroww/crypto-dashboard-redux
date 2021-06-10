@@ -4,9 +4,11 @@ import {KEYS} from "./constants";
 import {ROUTES} from "./apiRoutes";
 
 const axiosInstance = axios.create({
-    baseURL:"https://cors-anywhere.herokuapp.com/https://api.coinranking.com/v2/",
+    // baseURL:"https://cors-anywhere.herokuapp.com/https://api.coinranking.com/",
     headers:{
         "x-access-token": KEYS.API_KEY,
+        "pragma": "no-cache",
+        "cache-control": "no-cache"
     }
 });
 

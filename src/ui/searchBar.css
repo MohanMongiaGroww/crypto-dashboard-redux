@@ -1,0 +1,19 @@
+.searchBarHolder {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.searchBarLabel {
+    font-size: max(25px,min(2vw));
+    font-weight: 300;
+    padding-right: 10px;
+}
+
+.coinSearchBar {
+    border-radius: 5px;
+    outline: none;
+    border-color: black;
+    width: max(200px,min(50%,300px));
+}
+

@@ -1,0 +1,145 @@
+.coinTable {
+    width: 80%;
+    margin: 50px auto;
+    /* border: 1px solid green; */
+    padding: 10px
+}
+
+@media (max-width:992px) {
+    .coinTable {
+        width: 100%;
+    }
+}
+
+.coinTableHeading {
+    font-size: 2rem;
+    font-family: 'Roboto';
+    font-weight: bold;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    /* border: 1px solid green; */
+}
+
+.coinTableEntry {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.coinTableHeading > * {
+    /* border: 1px solid red; */
+    padding: 10px;
+    text-align: center;
+}
+
+.coinTableHeading > *:first-child {
+    width: 33%;
+    /* border-left: 7px solid red; */
+}
+
+.coinTableHeading > *:nth-child(2) {
+    width: 15%;
+}
+
+.coinTableHeading > *:nth-child(3) {
+    width: 26%;
+}
+.coinTableHeading > *:last-child {
+    width: 26%;
+}
+
+
+
+.coinTableEntry > div {
+    padding: 10px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.coinTableEntry > * {
+    /* border: 1px solid red; */
+    padding: 10px;
+    text-align: center;
+}
+
+.coinTableEntry > *:first-child {
+    width: 33%;
+    text-align: start;
+}
+
+.coinTableEntry > *:nth-child(2) {
+    width: 15%;
+}
+
+.coinTableEntry > *:nth-child(3) {
+    width: 26%;
+}
+.coinTableEntry > *:last-child {
+    width: 26%;
+}
+
+
+
+
+/*
+.coinTableHeading:nth-child(2) {
+    border: 1px solid red;
+}
+.coinTableHeading:nth-child(3) {
+    border: 1px solid red;
+}
+.coinTableHeading:nth-child(4) {
+    border: 1px solid red;
+} */
+
+.coinTableHeading > *:hover {
+    cursor: pointer;
+}
+
+
+.cryptoIcon {
+    height: 2em !important;
+    width: 2em !important;
+    padding-left: 2.5px;
+    display: inline-block;
+}
+
+.coinName {
+    display: inline-block;
+    position: relative;
+    top: -10px;
+    left: 8px;
+}
+
+
+
+.coinTableEntry:hover .cryptoName img {
+    animation: crypto 0.75s ease infinite 0s;
+}
+
+
+@keyframes crypto {
+    0%,100% {
+        transform: rotate(30deg);
+    }
+    50% {
+        transform: rotate(-30deg);
+    }
+}
+
+.coinTableEntry {
+    opacity: 1;
+    position: relative;
+    animation: opacity 0.5s ease-in-out;
+}
+
+
+@keyframes opacity {
+    to {
+        opacity: 1;
+    }
+    from {
+        opacity: 0;
+    }
+}

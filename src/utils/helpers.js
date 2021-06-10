@@ -1,8 +1,6 @@
-export function setLocalStorageItem (key,value) {
-    localStorage.setItem(key,JSON.stringify(value));
-}
+import commaNumber from "comma-number";
 
-export function checkIfLocalStorageDataExpired(coinKey,expiryKey,uuid) {
+export function checkIfLocalStorageDataExpired(coinKey,expiryKey,uuid=null) {
     const Expiry = Number.parseInt(localStorage.getItem(expiryKey));
     
     let ifDataValid;
@@ -31,4 +29,12 @@ export function checkIfLocalStorageDataExpired(coinKey,expiryKey,uuid) {
 
 export function getLocalStorageItem(key) {
     return  JSON.parse(localStorage.getItem(key));
+}
+
+
+
+
+export function formatNumber(n,decimalDigits) {
+    const formatNumber = commaNumber.bindWith(",");
+    return formatNumber(Number(n).toFixed(decimalDigits));
 }
