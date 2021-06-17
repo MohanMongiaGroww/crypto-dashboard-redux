@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import HomePage from "./views/HomePage/HomePage";
 import CoinPage from "./views/CoinPage/CoinPage";
+import PageNotFound from "./views/PageNotFound/PageNotFound";
 
 import { getFiatCurrencies } from "./utils/api";
 import { DEFAULT_CURRENCY } from "./utils/constants";
@@ -102,9 +103,7 @@ class App extends Component {
                                 setCurrency = {this.setCurrency.bind(this)}
                                 />
                     }} />
-                    <Route path="*" render={() => {
-                        return (<div>Page not found</div>)
-                    }} />
+                    <Route path="*" component={PageNotFound} />
                 </Switch>
             </Router>
         )

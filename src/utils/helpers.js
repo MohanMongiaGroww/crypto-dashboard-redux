@@ -28,11 +28,14 @@ export function checkIfLocalStorageDataExpired(coinKey,expiryKey,uuid=null) {
 }
 
 export function getLocalStorageItem(key) {
-    return  JSON.parse(localStorage.getItem(key));
+    let result = localStorage.getItem(key);
+    result = JSON.parse(result);
+    return  result;
 }
 
 export function setLocalStorageItem(key,value) {
     const val = JSON.stringify(value)
+    console.log(val);
     localStorage.setItem(key,val);
 }
 

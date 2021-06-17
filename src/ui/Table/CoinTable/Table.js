@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./table.css";
+import "../table.css";
 import TableRow from "./TableRow";
 import TableHeading  from "./TableHeading";
 

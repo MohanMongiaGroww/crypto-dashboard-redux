@@ -2,7 +2,7 @@ import React from "react";
 
 import SuggestionListItem from "./SuggestionListItem";
 
-import "./searchBar.css";
+import "../SearchBar/searchBar.css";
 import "./suggestionList.css";
 
 const SuggestionList = ({suggestions}) => {

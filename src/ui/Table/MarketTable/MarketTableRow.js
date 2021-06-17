@@ -1,6 +1,6 @@
 import React from "react";
 
-import {formatNumber} from "../utils/helpers";
+import {formatNumber} from "../../../utils/helpers";
 
 
 const MarketTableRow = ({market,currency}) => {

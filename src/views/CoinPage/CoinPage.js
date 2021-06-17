@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import SparkLine from 'react-canvas-spark-line';
 
-
-import LanguageSelector from "../../ui/LanguageSelector";
-import Loader from "../../ui/Loader";
-import HeadingH1 from '../../ui/HeadingH1';
-import HeadingH2 from '../../ui/HeadingH2';
-import MarketTable from '../../ui/MarketTable';
-import AllLinks from '../../ui/AllLinks';
-// import SparkLine from '../../ui/SparkLine';
+import HeadingH1 from '../../ui/Headings/HeadingH1';
+import HeadingH2 from '../../ui/Headings/HeadingH2';
+import LanguageSelector from "../../ui/LanguageSelector/LanguageSelector";
+import Loader from "../../ui/Loader/Loader";
+import MarketTable from '../../ui/Table/MarketTable/MarketTable';
+import AllLinks from '../../ui/InfoLinks/AllLinks';
+import Error from '../../ui/Error/Error';
 
 
 import {getSingleCoin,getCoinMarkets} from "../../utils/api";
-import {ERROR_CODES} from "../../utils/constants";
+import {ERROR_CODES,API_REFETCH_TIME} from "../../utils/constants";
 import { formatNumber, setLocalStorageItem ,getLocalStorageItem} from '../../utils/helpers';
 
 import "./coinPage.css";
@@ -85,6 +84,12 @@ class CoinPage extends Component {
                     error : err.response.data.message
                 })
             }
+            else
+            {
+                this.setState({
+                    error : err.message
+                })
+            }
         });
     }
 
@@ -114,12 +119,18 @@ class CoinPage extends Component {
                         error : err.response.data.message
                     })
                 }
+                else
+                {
+                    this.setState({
+                        error : err.message
+                    })
+                }
             });
     }
 
     apiCaller = () => {
-        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,20000);
-        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,20000);
+        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,API_REFETCH_TIME);
+        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,API_REFETCH_TIME);
     }
 
     componentDidMount() {
@@ -150,9 +161,31 @@ class CoinPage extends Component {
                 })
                 .then(result => this.apiCaller())
                 .catch(err => {
-                    console.log(err);
+                    if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else
+                    {
+                        this.setState({
+                            error : err.message
+                        })
+                    }
                 })
         })
+    }
+
+    componentDidUpdate() {
+        if(this.state.error.length > 0)
+        {
+            setTimeout(() => {
+                this.setState({
+                    error : ""
+                });
+            },5000)
+        }
     }
 
     componentWillUnmount() {
@@ -189,7 +222,18 @@ class CoinPage extends Component {
                 .then(result => this.apiCaller())
                 .then(result => true)
                 .catch(err => {
-                    console.log(err);
+                    if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else
+                    {
+                        this.setState({
+                            error : err.message
+                        })
+                    }
                 });
         }
         if(JSON.stringify(newState.coin) !== JSON.stringify(this.state.coin))
@@ -265,6 +309,7 @@ class CoinPage extends Component {
         return (
             coinDataRecieved ? 
             <div className="parentContainer101CoinPage">
+                <Error error={this.state.error} />
                 <LanguageSelector selectedCurrency={this.props.selectedCurrency} currencies={this.props.currencies} changeCurrency={this.props.setCurrency}/>
                 <div className="coinPageContainer">
                     <div ref={this.coinPageDivRef} className="coinPageDiv coinPageDivOpaque" onLoad={this.whenCoinPageDivLoaded}>
@@ -321,16 +366,16 @@ class CoinPage extends Component {
                             
                         </div>
                         <div className="sparkLine">
-                            <HeadingH1 text="Chart" color={this.state.coin.color} />
+                            <HeadingH1 text="Chart (1D)" color={this.state.coin.color} />
                             <div>
                                 <SparkLine
                                     data={this.state.coin.sparkline} 
                                     height={200} 
                                     width={600}
                                     animate
-                                    animationDuration={2000} // Default: 1000 (milliseconds)
+                                    animationDuration={2000}
                                     color={this.state.coin.color ? this.state.coin.color : "aqua"}
-                                    includeZero={false} // Default: true
+                                    includeZero={false}
                                     areaOpacity={1}
                                     areaColor={[this.state.coin.color ? this.state.coin.color : "aqua", 'white']}
                                 />
@@ -350,7 +395,11 @@ class CoinPage extends Component {
                         </div>
                     </div>
                 </div>
-            </div> : <Loader coin={this.props.coin} />
+            </div> : 
+            <div>
+                <Error error={this.state.error} />
+                <Loader coin={this.props.coin} />
+            </div>
         )
     }
   

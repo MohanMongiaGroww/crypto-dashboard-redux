@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 
-import {formatNumber} from "../utils/helpers";
+import {formatNumber} from "../../../utils/helpers";
 
 
 const TableRow = ({coin,currency}) => {
