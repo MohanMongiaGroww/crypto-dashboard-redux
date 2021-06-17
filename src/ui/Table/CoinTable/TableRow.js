@@ -25,18 +25,18 @@ const TableRow = ({coin,currency}) => {
 
                 }}
                 >
-                <div className="cryptoName addBorder">
+                <div className="cryptoName">
                     <img src={coin.iconUrl} className="cryptoIcon" alt={coin.symbol}/><span className="coinName">{coin.name}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <img src={currency.iconUrl} alt={`${currency.symbol}`} className="currencyIcon" />
                     <span>{formatNumber(coin.price,6)}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <img src={currency.iconUrl} alt={`${currency.symbol}`} className="currencyIcon" />
                     <span>{formatNumber(coin.marketCap,3)}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <span>{formatNumber(coin.btcPrice,10)}</span>
                 </div>
             </div>

@@ -323,7 +323,7 @@ class CoinPage extends Component {
                     <div ref={this.coinPageDivRef} className="coinPageDiv101CoinPage coinPageDivOpaque101CoinPage" onLoad={this.whenCoinPageDivLoaded}>
                         <div className="nameAndPriceDiv101CoinPage">
                             <div className="coinIconAndName101CoinPage">
-                                <a target="__blank" href={`${this.state.coin.websiteUrl}`} style={this.linkStyle} >
+                                <a target={this.state.coin.websiteUrl ? "_blank" : "_self"} rel="noreferrer" href={`${this.state.coin.websiteUrl ? this.state.coin.websiteUrl : ""}`} style={this.linkStyle} >
                                     <div>
                                         <img src={this.state.coin.iconUrl} className="cryptoIcon101CoinPage" alt="crypto-icon"/>
                                     </div>
