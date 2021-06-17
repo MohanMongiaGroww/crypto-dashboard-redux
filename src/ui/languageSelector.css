@@ -1,0 +1,16 @@
+.selectCurrency {
+    /* appearance: none; */
+    background-color: #091741;
+    color: white;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 70px;
+    height: 40px;
+    outline: none;
+    border: 0px;
+    padding: 8px;
+    position: relative;
+    cursor: pointer;
+}
+

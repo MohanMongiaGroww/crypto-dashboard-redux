@@ -1,22 +1,35 @@
 import React from 'react';
 
-import SearchBar from "../../ui/SearchBar";
+import SearchBarHolder from "../../ui/SearchBarHolder";
+import LanguageSelector from "../../ui/LanguageSelector";
 import Table from "../../ui/Table";
 
 import {getAllCoins} from "../../utils/api";
 import {ERROR_CODES} from "../../utils/constants";
+import { getLocalStorageItem, setLocalStorageItem } from '../../utils/helpers';
 
-class HomePage extends React.PureComponent {
+import "./homePage.css";
+
+class HomePage extends React.Component {
     
     state={
         coins:[],
-        error: ""
+        error: "",
     }
+
+    sortingBool = {
+        "price" : true,
+        "name" : true,
+        "marketCap" : true,
+        "btcPrice" : true
+    }
+
+    sortedField = "";
 
     apiCallTimerId = null;
 
     apiCallerFunction = () => {
-        getAllCoins()
+        getAllCoins(this.props.selectedCurrency.uuid)
         .then(result => {
             if(result.status === ERROR_CODES.SUCCESS)
             {
@@ -31,13 +44,13 @@ class HomePage extends React.PureComponent {
                 this.setState({
                     coins : coins
                 },() => {
-                    localStorage.setItem("Coins",JSON.stringify(copyCoins));
+                    setLocalStorageItem("Coins",copyCoins);
                 });
             }
         })
         .catch(err => {
             console.log(err)
-            if(err.response.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+            if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
             {
                 this.setState({
                     error : err.response.data.message
@@ -50,15 +63,7 @@ class HomePage extends React.PureComponent {
         this.apiCallTimerId =  setInterval(this.apiCallerFunction,20000);
     }
 
-    sortingBool = {
-        "price" : true,
-        "name" : true,
-        "marketCap" : true,
-        "btcPrice" : true
-    }
-
-    sortedField = "";
-
+    
     doSorting = (sortedCoins,field) => {
         sortedCoins.sort((coinA,coinB) => {
             const ascending = this.sortingBool[field];
@@ -85,8 +90,9 @@ class HomePage extends React.PureComponent {
         });
     }
 
+    
     componentDidMount() {
-        const Coins =  JSON.parse(localStorage.getItem("Coins"));
+        const Coins =  getLocalStorageItem("Coins");
         if(Coins)
         {
             this.setState({
@@ -101,7 +107,38 @@ class HomePage extends React.PureComponent {
             .then(result => this.apiCaller())
             .catch(err => {
                 console.log(err);
-            })
+            });
+    }
+
+    shouldComponentUpdate(newProps,newState) {
+        if(JSON.stringify(newProps.selectedCurrency) !== JSON.stringify(this.props.selectedCurrency))
+        {
+            if(this.apiCallTimerId)
+            {
+                clearInterval(this.apiCallTimerId);
+                this.apiCallTimerId = null;
+            }
+            Promise.resolve()
+                .then(() => {
+                    this.apiCallerFunction();
+                })
+                .then(result => this.apiCaller())
+                .then(result => true)
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        if(JSON.stringify(newState.coins) !== JSON.stringify(this.state.coins))
+        {
+            return true;
+        }
+        if(JSON.stringify(newState.error) !== JSON.stringify(this.state.error))
+        {
+            return true;
+        }
+        
+        return false;
+        
     }
 
     componentWillUnmount() {
@@ -114,13 +151,17 @@ class HomePage extends React.PureComponent {
 
     getFinalRender = () => {
         const isError = this.state.error.length > 0;
-
         if(!isError)
         {
             return (
-                <div>
-                    <SearchBar />
-                    <Table coins={this.state.coins} whenHeadingIsClicked={this.whenHeadingIsClicked} />
+                <div className="div101HomePage">
+                    <LanguageSelector selectedCurrency={this.props.selectedCurrency} currencies={this.props.currencies} changeCurrency={this.props.setCurrency}/>
+                    <SearchBarHolder coins={this.state.coins}/>
+                    <Table 
+                        coins={this.state.coins} 
+                        whenHeadingIsClicked={this.whenHeadingIsClicked}
+                        currency={this.props.selectedCurrency} 
+                    />
                 </div>
             )
         }

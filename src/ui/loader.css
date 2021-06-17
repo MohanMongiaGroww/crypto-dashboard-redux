@@ -1,0 +1,30 @@
+.loader {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader div {
+  /* border-radius: 50%; */
+  animation: animateBorder 1s ease-in-out infinite;
+}
+
+.loaderCryptoIcon {
+  height: 10em;
+  width: 10em;
+  padding: 20px;
+  /* border: 1px solid red; */
+  /* background-color: white; */
+  /* border-radius: 50%; */
+}
+
+@keyframes animateBorder {
+  0%,
+  100% {
+    border-width: 0px;
+  }
+  50% {
+    border-width: 30px;
+  }
+}

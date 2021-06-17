@@ -1,9 +1,10 @@
 import React from "react";
 
 import "./table.css";
-import TableRow from "./Table.Row";
+import TableRow from "./TableRow";
+import TableHeading  from "./TableHeading";
 
-const Table = ({coins,whenHeadingIsClicked}) => {
+const Table = ({coins,whenHeadingIsClicked,currency}) => {
 
     const coinsEntry = () => {
         const isCoinsEmpty = coins.length === 0;
@@ -16,34 +17,21 @@ const Table = ({coins,whenHeadingIsClicked}) => {
         {
             return coins.map(coin => {
                 return (
-                    <TableRow coin={coin}  />
+                    <TableRow key={coin.uuid} coin={coin} currency={currency} />
                 )
             });
         }
     }
 
-    const onHeadingClick = (e) => {
-        whenHeadingIsClicked(e.target.id);
-    }
+   
 
     return (
-            <div className="coinTable">
-                <div className="coinTableHeading">
-                    <div id="name" onClick={onHeadingClick}>
-                        Coin
+            <div className="coinTableParent101HomePage">
+                <div className="coinTable101HomePage">
+                    <TableHeading whenHeadingIsClicked={whenHeadingIsClicked} currency={currency} />
+                    <div>
+                        {coinsEntry()}
                     </div>
-                    <div id="price" className="addBorder" onClick={onHeadingClick}>
-                        Price
-                    </div> 
-                    <div id="marketCap" className="addBorder" onClick={onHeadingClick}>
-                        Market Cap
-                    </div>
-                    <div id="price" className="addBorder" onClick={onHeadingClick}>
-                        Price (BTC)
-                    </div>
-                </div>
-                <div>
-                    {coinsEntry()}
                 </div>
             </div>
     )

@@ -1,28 +1,42 @@
-import React, { Component } from 'react';
+import React from "react";
 
 import "./searchBar.css";
+import CoinSVG from "../static/coin.svg";
 
-class SearchBar extends Component {
-    
-    state = {
-        term : ""
-    }
+class SearchBar extends React.Component {
+  state = {
+    term: "",
+  };
 
-    onTermChange = (e) => {
-        console.log(e.target.value);
-        this.setState({
-            term : e.target.value
-        });
+  timerId = null;
+
+  onTermChange = (e) => {
+    const value = e.target.value;
+    this.setState({
+      term: value,
+    });
+    if (this.timerId !== null) {
+      clearTimeout(this.timerId);
+      this.timerId = null;
     }
-    
-    render() {
-        return (
-            <div className="searchBarHolder">
-                <label className="searchBarLabel" htmlFor="coinSearchBar">Coin :</label>
-                <input id="coinSearchBar" type="text" value={this.state.term} className="coinSearchBar" onChange={this.onTermChange} />
-            </div>
-        )
-    }
+    this.timerId = setTimeout(this.props.whenSearchTermChanges, 1000, value);
+  };
+
+  render() {
+    return (
+      <div className="parentSearchBar">
+        <img src={CoinSVG} alt="coin" className="searchBarIcon" />
+        <input
+          id="coinSearchBar"
+          type="text"
+          value={this.state.term}
+          className="coinSearchBar"
+          onChange={this.onTermChange}
+          placeholder="Enter Coin or Symbol ..."
+        />
+      </div>
+    );
+  }
 }
 
 export default SearchBar;
