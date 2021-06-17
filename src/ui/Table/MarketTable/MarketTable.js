@@ -24,8 +24,8 @@ const MarketTable = ({markets,currency,whenHeadingIsClicked}) => {
     }
 
     return (
-            <div className="coinTableParent101HomePage">
-                <div className="coinTable101HomePage">
+            <div className="marketTableParent101CoinPage">
+                <div className="marketTable101CoinPage">
                     <MarketTableHeading whenHeadingIsClicked={whenHeadingIsClicked} currency={currency} />
                     <div>
                         {marketsEntry()}

@@ -11,14 +11,14 @@ const TableHeading = ({whenHeadingIsClicked,currency}) => {
             <div id="name" onClick={onHeadingClick}>
                 Coin
             </div>
-            <div id="price" className="addBorder" onClick={onHeadingClick}>
-                Price <span className="currency101HomePage headinInfo101HomePage">({currency.symbol})</span>
+            <div id="price" onClick={onHeadingClick}>
+                Price <span className="headinInfo">({currency.symbol})</span>
             </div> 
-            <div id="marketCap" className="addBorder" onClick={onHeadingClick}>
-                Market Cap <span className="currency101HomePage headinInfo101HomePage">({currency.symbol})</span>
+            <div id="marketCap" onClick={onHeadingClick}>
+                Market Cap <span className="headinInfo">({currency.symbol})</span>
             </div>
-            <div id="btcPrice" className="addBorder" onClick={onHeadingClick}>
-                Price <span className="headinInfo101HomePage">(BTC)</span>
+            <div id="btcPrice" onClick={onHeadingClick}>
+                Price <span className="headinInfo">(BTC)</span>
             </div>
         </div>
     )

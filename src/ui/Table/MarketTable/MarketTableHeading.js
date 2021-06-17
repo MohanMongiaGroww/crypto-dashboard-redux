@@ -7,25 +7,24 @@ const MarketTableHeading = ({currency,whenHeadingIsClicked}) => {
     }
 
     const onHeadingClick = (e) => {
-        console.log(e.target.id,"Clicked");
         whenHeadingIsClicked(e.target.id);
     }
 
     return (
-        <div className="coinTableHeading101HomePage" style={style}>
-            <div id="name" className="addBorder" onClick={onHeadingClick}>
+        <div className="marketTableHeading101CoinPage" style={style}>
+            <div id="name" onClick={onHeadingClick}>
                 Market
             </div>
-            <div id="price" className="addBorder" onClick={onHeadingClick}>
-                Price <span className="currency101HomePage headinInfo101HomePage">({currency?.symbol})</span>
+            <div id="price" onClick={onHeadingClick}>
+                Price <span className="headinInfo">({currency?.symbol})</span>
             </div>
-            <div id="ratio" className="addBorder">
+            <div id="ratio">
                 Base/Quote
             </div>
-            <div id="marketShare" className="addBorder" onClick={onHeadingClick}>
+            <div id="marketShare" onClick={onHeadingClick}>
                 Market Share
             </div>
-            <div id="btcPrice" className="addBorder" onClick={onHeadingClick}>
+            <div id="btcPrice" onClick={onHeadingClick}>
                 BTC Price
             </div>
         </div>

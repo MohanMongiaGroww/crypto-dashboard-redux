@@ -86,6 +86,7 @@ class CoinPage extends Component {
             }
             else
             {
+                console.log(err.message);
                 this.setState({
                     error : err.message
                 })
@@ -106,7 +107,6 @@ class CoinPage extends Component {
                 }
             })
             .catch(err => {
-                
                 if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
                 {
                     this.setState({
@@ -121,6 +121,7 @@ class CoinPage extends Component {
                 }
                 else
                 {
+                    console.log(err.message);
                     this.setState({
                         error : err.message
                     })
@@ -177,10 +178,12 @@ class CoinPage extends Component {
         })
     }
 
+    errorDisplayTimerId = null;
+
     componentDidUpdate() {
-        if(this.state.error.length > 0)
+        if(this.state.error?.length > 0)
         {
-            setTimeout(() => {
+            this.errorDisplayTimerId = setTimeout(() => {
                 this.setState({
                     error : ""
                 });
@@ -198,6 +201,11 @@ class CoinPage extends Component {
         {
             clearInterval(this.marketApiCallTimerId);
             this.marketApiCallTimerId=null;
+        }
+        if(this.errorDisplayTimerId)
+        {
+            clearTimeout(this.errorDisplayTimerId);
+            this.errorDisplayTimerId = null;
         }
     }
 
@@ -259,7 +267,7 @@ class CoinPage extends Component {
     coinPageDivRef = React.createRef();
 
     whenCoinPageDivLoaded = () => {
-        this.coinPageDivRef.current.classList.add("coinPageDivRemoveOpaque");
+        this.coinPageDivRef.current.classList.add("coinPageDivRemoveOpaque101CoinPage");
     }
 
     linkStyle = {
@@ -311,24 +319,24 @@ class CoinPage extends Component {
             <div className="parentContainer101CoinPage">
                 <Error error={this.state.error} />
                 <LanguageSelector selectedCurrency={this.props.selectedCurrency} currencies={this.props.currencies} changeCurrency={this.props.setCurrency}/>
-                <div className="coinPageContainer">
-                    <div ref={this.coinPageDivRef} className="coinPageDiv coinPageDivOpaque" onLoad={this.whenCoinPageDivLoaded}>
+                <div className="coinPageContainer101CoinPage">
+                    <div ref={this.coinPageDivRef} className="coinPageDiv101CoinPage coinPageDivOpaque101CoinPage" onLoad={this.whenCoinPageDivLoaded}>
                         <div className="nameAndPriceDiv101CoinPage">
                             <div className="coinIconAndName101CoinPage">
                                 <a target="__blank" href={`${this.state.coin.websiteUrl}`} style={this.linkStyle} >
                                     <div>
-                                        <img src={this.state.coin.iconUrl} className="cryptoIconCoinPage" alt="crypto-icon"/>
+                                        <img src={this.state.coin.iconUrl} className="cryptoIcon101CoinPage" alt="crypto-icon"/>
                                     </div>
                                     <div className="nameHeading101CoinPage">
                                         {this.state.coin.name}({this.state.coin.symbol})
                                     </div>
                                 </a>
                             </div>
-                            <div className="coinPrices">
+                            <div className="coinPrices101CoinPage">
                                 <HeadingH2 className="heading101CoinPage" text="Price" color={this.state.coin.color} />
-                                <div className="coinPricesChild">
+                                <div className="coinPricesChild101CoinPage">
                                     <div>
-                                        <img src={this.props.selectedCurrency.iconUrl} className="priceIcon" alt="SYM"/>
+                                        <img src={this.props.selectedCurrency.iconUrl} className="priceIcon101CoinPage" alt="SYM"/>
                                         <div>{formatNumber(this.state.coin.price,6)}</div>
                                     </div>
                                     <div>
@@ -337,23 +345,23 @@ class CoinPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="coinDetails">
+                        <div className="coinDetails101CoinPage">
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="Rank" color={this.state.coin.color} />
-                                <div className="coinInfo">
+                                <div className="coinInfo101CoinPage">
                                     {this.state.coin.rank}
                                 </div>
                             </div>
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="Supply" color={this.state.coin.color} />
-                                <div className="coinInfo">
+                                <div className="coinInfo101CoinPage">
                                     {formatNumber(this.state.coin?.supply?.total)}
                                 </div>
                             </div>
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="All Time High" color={this.state.coin.color} />
-                                <div className="coinInfo">
-                                    <img src={this.props.selectedCurrency.iconUrl} className="priceIcon" alt="SYM"/>
+                                <div className="coinInfo101CoinPage">
+                                    <img src={this.props.selectedCurrency.iconUrl} className="priceIcon101CoinPage" alt="SYM"/>
                                     <span>{formatNumber(this.state.coin.allTimeHigh?.price,6)}</span>
                                 </div>
                             </div>
@@ -365,7 +373,7 @@ class CoinPage extends Component {
                             </div>
                             
                         </div>
-                        <div className="sparkLine">
+                        <div className="sparkLine101CoinPage">
                             <HeadingH1 text="Chart (1D)" color={this.state.coin.color} />
                             <div>
                                 <SparkLine
@@ -389,7 +397,7 @@ class CoinPage extends Component {
                                 whenHeadingIsClicked={this.whenHeadingIsClicked}    
                             />
                         </div>
-                        <div className="visitLinks">
+                        <div className="visitLinks101CoinPage">
                             <HeadingH1 text="Links" color={this.state.coin.color} />
                             <AllLinks links={this.state.coin.links} />
                         </div>

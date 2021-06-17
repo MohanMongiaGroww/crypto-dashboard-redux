@@ -3,7 +3,7 @@ import React from "react";
 import "./error.css";
 
 const Error = ({error}) => {
-    if(error.length !== 0)
+    if(error && error.length !== 0)
     {
         return (
             <div className="errorDiv">

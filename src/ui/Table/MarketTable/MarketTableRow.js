@@ -7,7 +7,7 @@ const MarketTableRow = ({market,currency}) => {
     
     return (
         <div
-            className="coinTableEntry101HomePage addBorder" 
+            className="marketTableEntry101CoinPage addBorder" 
             style={{
                 borderTopLeftRadius:'12px',
                 borderBottomLeftRadius:'12px',
