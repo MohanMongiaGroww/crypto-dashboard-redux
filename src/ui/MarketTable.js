@@ -4,8 +4,7 @@ import "./table.css";
 import MarketTableRow from "./MarketTableRow";
 import MarketTableHeading  from "./MarketTableHeading";
 
-const MarketTable = ({markets,currency}) => {
-    console.log(markets);
+const MarketTable = ({markets,currency,whenHeadingIsClicked}) => {
 
     const marketsEntry = () => {
         const isMarketsEmpty = markets.length === 0;
@@ -24,12 +23,10 @@ const MarketTable = ({markets,currency}) => {
         }
     }
 
-   
-
     return (
             <div className="coinTableParent101HomePage">
                 <div className="coinTable101HomePage">
-                    <MarketTableHeading  currency={currency} />
+                    <MarketTableHeading whenHeadingIsClicked={whenHeadingIsClicked} currency={currency} />
                     <div>
                         {marketsEntry()}
                     </div>

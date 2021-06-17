@@ -202,9 +202,18 @@
   }
 }
 
-.market101CoinPage {
+.market101CoinPage , .visitLinks , .sparkLine {
   background-color: var(--coinPageBlockHighlightColor);
   margin-top: 30px;
+  margin-bottom: 30px;
   padding: 25px;
   border-radius: 5px;
+}
+
+
+.sparkLine > *:nth-child(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 60px 0px 30px 0px;
 }

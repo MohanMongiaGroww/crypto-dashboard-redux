@@ -13,7 +13,8 @@ const MarketTableRow = ({market,currency}) => {
                 borderBottomLeftRadius:'12px',
                 borderTopRightRadius:'5px',
                 borderBottomRightRadius:'5px',
-                border:"1px solid red",
+                marginBottom: '20px',
+                border : "2px solid #050f2e"
             }}
             >
             <div className="cryptoName addBorder">
@@ -22,6 +23,15 @@ const MarketTableRow = ({market,currency}) => {
             <div className="addBorder">
                 <img src={currency?.iconUrl} alt={`${currency?.symbol}`} className="currencyIcon" />
                 <span>{formatNumber(market.price,6)}</span>
+            </div>
+            <div>
+                {`${market.base.symbol}/${market.quote.symbol}`}
+            </div>
+            <div>
+                {`${market.marketShare}`}
+            </div>
+            <div className="btcPrice">
+                {`${formatNumber(market.btcPrice,6)}`}
             </div>
         </div>
     )

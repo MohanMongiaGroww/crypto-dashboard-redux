@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import SparkLine from 'react-canvas-spark-line';
+
 
 import LanguageSelector from "../../ui/LanguageSelector";
 import Loader from "../../ui/Loader";
 import HeadingH1 from '../../ui/HeadingH1';
 import HeadingH2 from '../../ui/HeadingH2';
 import MarketTable from '../../ui/MarketTable';
+import AllLinks from '../../ui/AllLinks';
+// import SparkLine from '../../ui/SparkLine';
 
 
 import {getSingleCoin,getCoinMarkets} from "../../utils/api";
@@ -20,6 +24,37 @@ class CoinPage extends Component {
         markets:[],
         uuid : "",
         error : ""
+    }
+
+    sortingBool = {
+        "price" : true,
+        "name" : true,
+        "btcPrice" : true,
+        "marketShare" : true
+    }
+
+    doSorting = (sortedMarkets,field) => {
+        sortedMarkets.sort((marketA,marketB) => {
+            const ascending = this.sortingBool[field];
+            if(field === "name")
+            {
+                return ascending ? (marketA.exchange[field] > marketB.exchange[field] ? 1 : -1) : (marketA.exchange[field] < marketB.exchange[field] ? 1 : -1)
+            }
+            return ascending ? marketB[field] - marketA[field] : marketA[field] - marketB[field];
+        });
+
+    }
+
+    whenHeadingIsClicked = (field) => {
+        const sortedMarkets = [...this.state.markets];
+
+        this.doSorting(sortedMarkets,field);
+        
+        this.sortingBool[field] = !this.sortingBool[field];
+
+        this.setState({
+            markets : [...sortedMarkets]
+        });
     }
 
     coinApiCallTimerId = null;
@@ -38,13 +73,13 @@ class CoinPage extends Component {
             }
         })
         .catch(err => {
-            if(err.response.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+            if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
             {
                 this.setState({
                     error : err.response.data.message
                 })
             }
-            else if(err.response.status === ERROR_CODES.COIN_NOT_FOUND)
+            else if(err.response?.status === ERROR_CODES.COIN_NOT_FOUND)
             {
                 this.setState({
                     error : err.response.data.message
@@ -67,13 +102,13 @@ class CoinPage extends Component {
             })
             .catch(err => {
                 
-                if(err.response.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
                 {
                     this.setState({
                         error : err.response.data.message
                     })
                 }
-                else if(err.response.status === ERROR_CODES.COIN_NOT_FOUND)
+                else if(err.response?.status === ERROR_CODES.COIN_NOT_FOUND)
                 {
                     this.setState({
                         error : err.response.data.message
@@ -285,9 +320,33 @@ class CoinPage extends Component {
                             </div>
                             
                         </div>
+                        <div className="sparkLine">
+                            <HeadingH1 text="Chart" color={this.state.coin.color} />
+                            <div>
+                                <SparkLine
+                                    data={this.state.coin.sparkline} 
+                                    height={200} 
+                                    width={600}
+                                    animate
+                                    animationDuration={2000} // Default: 1000 (milliseconds)
+                                    color={this.state.coin.color ? this.state.coin.color : "aqua"}
+                                    includeZero={false} // Default: true
+                                    areaOpacity={1}
+                                    areaColor={[this.state.coin.color ? this.state.coin.color : "aqua", 'white']}
+                                />
+                            </div>
+                        </div>
                         <div className="market101CoinPage">
                             <HeadingH1 text="Market" color={this.state.coin.color} />
-                            <MarketTable markets={this.state.markets} currency={this.props.selectedCurrency} />
+                            <MarketTable 
+                                markets={this.state.markets} 
+                                currency={this.props.selectedCurrency}
+                                whenHeadingIsClicked={this.whenHeadingIsClicked}    
+                            />
+                        </div>
+                        <div className="visitLinks">
+                            <HeadingH1 text="Links" color={this.state.coin.color} />
+                            <AllLinks links={this.state.coin.links} />
                         </div>
                     </div>
                 </div>

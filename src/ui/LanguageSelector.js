@@ -8,9 +8,8 @@ class LanguageSelector extends React.PureComponent {
     const currency = JSON.parse(e.target.value);
     this.props.changeCurrency(currency);
   };
-
+  
   renderOptions = (cur) => {
-    console.log(this.props.selectedCurrency)
     const selected = JSON.stringify(cur) === JSON.stringify(this.props.selectedCurrency);
     if(!selected)
     {
