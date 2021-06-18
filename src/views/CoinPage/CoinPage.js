@@ -86,7 +86,6 @@ class CoinPage extends Component {
             }
             else
             {
-                console.log(err.message);
                 this.setState({
                     error : err.message
                 })
@@ -107,6 +106,7 @@ class CoinPage extends Component {
                 }
             })
             .catch(err => {
+                console.log(err);
                 if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
                 {
                     this.setState({
@@ -121,7 +121,6 @@ class CoinPage extends Component {
                 }
                 else
                 {
-                    console.log(err.message);
                     this.setState({
                         error : err.message
                     })
@@ -302,6 +301,13 @@ class CoinPage extends Component {
         return result;
     }
 
+    getPricesForSparkline = () => {
+        const val = this.state.coin.sparkline;
+        return val.map(value => {
+            return Number(value);
+        })
+    }
+
     getPriceChange = () => {
         const increase = this.state.coin.change > 0 ? 1 : 0; 
         if(increase === 1)
@@ -377,7 +383,7 @@ class CoinPage extends Component {
                             <HeadingH1 text="Chart (1D)" color={this.state.coin.color} />
                             <div>
                                 <SparkLine
-                                    data={this.state.coin.sparkline} 
+                                    data={this.getPricesForSparkline()} 
                                     height={200} 
                                     width={600}
                                     animate

@@ -1,14 +1,16 @@
 import React, { Component } from "react";
+import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
 
 import HomePage from "./views/HomePage/HomePage";
 import CoinPage from "./views/CoinPage/CoinPage";
 import PageNotFound from "./views/PageNotFound/PageNotFound";
 
 import { getFiatCurrencies } from "./utils/api";
-import { DEFAULT_CURRENCY } from "./utils/constants";
+import { DEFAULT_CURRENCY , ERROR_CODES} from "./utils/constants";
 import { getLocalStorageItem, setLocalStorageItem } from "./utils/helpers";
 
-import {BrowserRouter as Router,Route,Switch} from "react-router-dom";
+import defaultCoinSVG from "./static/defaultCoin.svg";
+
 
 class App extends Component {
 
@@ -40,7 +42,24 @@ class App extends Component {
                 setLocalStorageItem("selectedCurrency",currencies[DEFAULT_CURRENCY.INDEX]); // by default USD currency is selected
             })
             .catch(err => {
-                console.log(err);
+                if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                {
+                    this.setState({
+                        error : err.response.data.message
+                    })
+                }
+                else if(err.response?.status === ERROR_CODES.COIN_NOT_FOUND)
+                {
+                    this.setState({
+                        error : err.response.data.message
+                    })
+                }
+                else
+                {
+                    this.setState({
+                        error : err.message
+                    })
+                }
             });
     }
 
@@ -67,10 +86,11 @@ class App extends Component {
     getCoinForCoinPage = (uuid) =>{
         let coin = {
             color : '#800080',
+            iconUrl : defaultCoinSVG,
             symbol : "Icon"
         };
         const coins = JSON.parse(localStorage.getItem("Coins"));
-        if(typeof coins && typeof({}) && coins.length !==0)
+        if(coins &&  coins.length !==0)
         {
             const myCoin = coins.filter(coin => {
                 return coin.uuid === uuid;

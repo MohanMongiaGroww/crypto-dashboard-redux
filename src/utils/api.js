@@ -1,12 +1,12 @@
 import axios from "axios";
 
-import {DEFAULT_CURRENCY, CURRENCY_TYPES} from "./constants";
+import {DEFAULT_CURRENCY, CURRENCY_TYPES, API_KEY} from "./constants";
 import {ROUTES} from "./apiRoutes";
 
 const axiosInstance = axios.create({
     baseURL:ROUTES.BASE_URL,
     headers:{
-        "x-access-token": process.env.REACT_APP_API_KEY,
+        "x-access-token": API_KEY,
         "pragma": "no-cache",
         "cache-control": "no-cache",
     }
