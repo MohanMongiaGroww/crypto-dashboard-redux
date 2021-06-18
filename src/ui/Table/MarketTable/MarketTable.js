@@ -1,8 +1,9 @@
 import React from "react";
 
-import "../table.css";
 import MarketTableRow from "./MarketTableRow";
 import MarketTableHeading  from "./MarketTableHeading";
+
+import "../table.css";
 
 const MarketTable = ({markets,currency,whenHeadingIsClicked}) => {
 

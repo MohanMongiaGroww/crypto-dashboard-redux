@@ -6,7 +6,7 @@ import Table from "../../ui/Table/CoinTable/Table";
 import Error from '../../ui/Error/Error';
 
 import {getAllCoins} from "../../utils/api";
-import {ERROR_CODES,API_REFETCH_TIME} from "../../utils/constants";
+import {ERROR_CODES,REFRESH_TIMES} from "../../utils/constants";
 import { getLocalStorageItem, setLocalStorageItem } from '../../utils/helpers';
 
 import "./homePage.css";
@@ -66,7 +66,7 @@ class HomePage extends React.Component {
     }
 
     apiCaller = () => {
-        this.apiCallTimerId =  setInterval(this.apiCallerFunction,API_REFETCH_TIME);
+        this.apiCallTimerId =  setInterval(this.apiCallerFunction,REFRESH_TIMES.API_REFETCH_TIME);
     }
 
     

@@ -64,6 +64,25 @@ class App extends Component {
         }
     }
 
+    getCoinForCoinPage = (uuid) =>{
+        let coin = {
+            color : '#800080',
+            symbol : "Icon"
+        };
+        const coins = JSON.parse(localStorage.getItem("Coins"));
+        if(typeof coins && typeof({}) && coins.length !==0)
+        {
+            const myCoin = coins.filter(coin => {
+                return coin.uuid === uuid;
+            });
+            if(myCoin.length === 1)
+            {
+                coin = myCoin[0];
+            }
+        }
+        return coin;
+    }
+
 
     render() {
         return (
@@ -77,27 +96,9 @@ class App extends Component {
                                 />
                     }} />
                     <Route exact path="/coin/:uuid" render={(props) => { 
-                        let coin = {
-                            color : '#800080',
-                            symbol : "Icon"
-                        };
-                        const getCoin = () =>{
-                            const coins = JSON.parse(localStorage.getItem("Coins"));
-                            if(typeof coins && typeof({}) && coins.length !==0)
-                            {
-                                const myCoin = coins.filter(coin => {
-                                    return coin.uuid === props.match.params.uuid;
-                                });
-                                if(myCoin.length === 1)
-                                {
-                                    coin = myCoin[0];
-                                }
-                            }
-                        }
-                        getCoin();
                         return <CoinPage 
                                 {...props} 
-                                coin = {coin} 
+                                coin = {this.getCoinForCoinPage(props.match.params.uuid)} 
                                 currencies={this.state.currencies} 
                                 selectedCurrency={this.state.selectedCurrency ? this.state.selectedCurrency : DEFAULT_CURRENCY.USD_DOLLAR} 
                                 setCurrency = {this.setCurrency.bind(this)}
