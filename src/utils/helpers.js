@@ -35,7 +35,6 @@ export function getLocalStorageItem(key) {
 
 export function setLocalStorageItem(key,value) {
     const val = JSON.stringify(value)
-    console.log(val);
     localStorage.setItem(key,val);
 }
 

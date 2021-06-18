@@ -144,7 +144,24 @@ class HomePage extends React.Component {
                 .then(result => this.apiCaller())
                 .then(result => true)
                 .catch(err => {
-                    console.log(err);
+                    if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else if(err.response?.status === ERROR_CODES.COIN_NOT_FOUND)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else
+                    {
+                        this.setState({
+                            error : err.message
+                        })
+                    }
                 });
         }
         if(JSON.stringify(newState.coins) !== JSON.stringify(this.state.coins))
