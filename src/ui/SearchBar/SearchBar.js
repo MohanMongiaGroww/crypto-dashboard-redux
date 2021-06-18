@@ -1,7 +1,8 @@
 import React from "react";
 
 import "./searchBar.css";
-import CoinSVG from "../static/coin.svg";
+
+import CoinSVG from "../../static/coin.svg";
 
 class SearchBar extends React.Component {
   state = {

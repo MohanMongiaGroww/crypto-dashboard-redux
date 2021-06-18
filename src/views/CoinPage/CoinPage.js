@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import SparkLine from 'react-canvas-spark-line';
 
-
-import LanguageSelector from "../../ui/LanguageSelector";
-import Loader from "../../ui/Loader";
-import HeadingH1 from '../../ui/HeadingH1';
-import HeadingH2 from '../../ui/HeadingH2';
-import MarketTable from '../../ui/MarketTable';
-import AllLinks from '../../ui/AllLinks';
-// import SparkLine from '../../ui/SparkLine';
+import HeadingH1 from '../../ui/Headings/HeadingH1';
+import HeadingH2 from '../../ui/Headings/HeadingH2';
+import LanguageSelector from "../../ui/LanguageSelector/LanguageSelector";
+import Loader from "../../ui/Loader/Loader";
+import MarketTable from '../../ui/Table/MarketTable/MarketTable';
+import AllLinks from '../../ui/InfoLinks/AllLinks';
+import Error from '../../ui/Error/Error';
 
 
 import {getSingleCoin,getCoinMarkets} from "../../utils/api";
-import {ERROR_CODES} from "../../utils/constants";
+import {ERROR_CODES,API_REFETCH_TIME} from "../../utils/constants";
 import { formatNumber, setLocalStorageItem ,getLocalStorageItem} from '../../utils/helpers';
 
 import "./coinPage.css";
@@ -85,6 +84,13 @@ class CoinPage extends Component {
                     error : err.response.data.message
                 })
             }
+            else
+            {
+                console.log(err.message);
+                this.setState({
+                    error : err.message
+                })
+            }
         });
     }
 
@@ -101,7 +107,6 @@ class CoinPage extends Component {
                 }
             })
             .catch(err => {
-                
                 if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
                 {
                     this.setState({
@@ -114,12 +119,19 @@ class CoinPage extends Component {
                         error : err.response.data.message
                     })
                 }
+                else
+                {
+                    console.log(err.message);
+                    this.setState({
+                        error : err.message
+                    })
+                }
             });
     }
 
     apiCaller = () => {
-        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,20000);
-        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,20000);
+        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,API_REFETCH_TIME);
+        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,API_REFETCH_TIME);
     }
 
     componentDidMount() {
@@ -150,9 +162,33 @@ class CoinPage extends Component {
                 })
                 .then(result => this.apiCaller())
                 .catch(err => {
-                    console.log(err);
+                    if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else
+                    {
+                        this.setState({
+                            error : err.message
+                        })
+                    }
                 })
         })
+    }
+
+    errorDisplayTimerId = null;
+
+    componentDidUpdate() {
+        if(this.state.error?.length > 0)
+        {
+            this.errorDisplayTimerId = setTimeout(() => {
+                this.setState({
+                    error : ""
+                });
+            },5000)
+        }
     }
 
     componentWillUnmount() {
@@ -165,6 +201,11 @@ class CoinPage extends Component {
         {
             clearInterval(this.marketApiCallTimerId);
             this.marketApiCallTimerId=null;
+        }
+        if(this.errorDisplayTimerId)
+        {
+            clearTimeout(this.errorDisplayTimerId);
+            this.errorDisplayTimerId = null;
         }
     }
 
@@ -189,7 +230,18 @@ class CoinPage extends Component {
                 .then(result => this.apiCaller())
                 .then(result => true)
                 .catch(err => {
-                    console.log(err);
+                    if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                    {
+                        this.setState({
+                            error : err.response.data.message
+                        })
+                    }
+                    else
+                    {
+                        this.setState({
+                            error : err.message
+                        })
+                    }
                 });
         }
         if(JSON.stringify(newState.coin) !== JSON.stringify(this.state.coin))
@@ -215,7 +267,7 @@ class CoinPage extends Component {
     coinPageDivRef = React.createRef();
 
     whenCoinPageDivLoaded = () => {
-        this.coinPageDivRef.current.classList.add("coinPageDivRemoveOpaque");
+        this.coinPageDivRef.current.classList.add("coinPageDivRemoveOpaque101CoinPage");
     }
 
     linkStyle = {
@@ -265,25 +317,26 @@ class CoinPage extends Component {
         return (
             coinDataRecieved ? 
             <div className="parentContainer101CoinPage">
+                <Error error={this.state.error} />
                 <LanguageSelector selectedCurrency={this.props.selectedCurrency} currencies={this.props.currencies} changeCurrency={this.props.setCurrency}/>
-                <div className="coinPageContainer">
-                    <div ref={this.coinPageDivRef} className="coinPageDiv coinPageDivOpaque" onLoad={this.whenCoinPageDivLoaded}>
+                <div className="coinPageContainer101CoinPage">
+                    <div ref={this.coinPageDivRef} className="coinPageDiv101CoinPage coinPageDivOpaque101CoinPage" onLoad={this.whenCoinPageDivLoaded}>
                         <div className="nameAndPriceDiv101CoinPage">
                             <div className="coinIconAndName101CoinPage">
-                                <a target="__blank" href={`${this.state.coin.websiteUrl}`} style={this.linkStyle} >
+                                <a target={this.state.coin.websiteUrl ? "_blank" : "_self"} rel="noreferrer" href={`${this.state.coin.websiteUrl ? this.state.coin.websiteUrl : ""}`} style={this.linkStyle} >
                                     <div>
-                                        <img src={this.state.coin.iconUrl} className="cryptoIconCoinPage" alt="crypto-icon"/>
+                                        <img src={this.state.coin.iconUrl} className="cryptoIcon101CoinPage" alt="crypto-icon"/>
                                     </div>
                                     <div className="nameHeading101CoinPage">
                                         {this.state.coin.name}({this.state.coin.symbol})
                                     </div>
                                 </a>
                             </div>
-                            <div className="coinPrices">
+                            <div className="coinPrices101CoinPage">
                                 <HeadingH2 className="heading101CoinPage" text="Price" color={this.state.coin.color} />
-                                <div className="coinPricesChild">
+                                <div className="coinPricesChild101CoinPage">
                                     <div>
-                                        <img src={this.props.selectedCurrency.iconUrl} className="priceIcon" alt="SYM"/>
+                                        <img src={this.props.selectedCurrency.iconUrl} className="priceIcon101CoinPage" alt="SYM"/>
                                         <div>{formatNumber(this.state.coin.price,6)}</div>
                                     </div>
                                     <div>
@@ -292,23 +345,23 @@ class CoinPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="coinDetails">
+                        <div className="coinDetails101CoinPage">
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="Rank" color={this.state.coin.color} />
-                                <div className="coinInfo">
+                                <div className="coinInfo101CoinPage">
                                     {this.state.coin.rank}
                                 </div>
                             </div>
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="Supply" color={this.state.coin.color} />
-                                <div className="coinInfo">
+                                <div className="coinInfo101CoinPage">
                                     {formatNumber(this.state.coin?.supply?.total)}
                                 </div>
                             </div>
                             <div>
                                 <HeadingH2 className="heading101CoinPage" text="All Time High" color={this.state.coin.color} />
-                                <div className="coinInfo">
-                                    <img src={this.props.selectedCurrency.iconUrl} className="priceIcon" alt="SYM"/>
+                                <div className="coinInfo101CoinPage">
+                                    <img src={this.props.selectedCurrency.iconUrl} className="priceIcon101CoinPage" alt="SYM"/>
                                     <span>{formatNumber(this.state.coin.allTimeHigh?.price,6)}</span>
                                 </div>
                             </div>
@@ -320,18 +373,18 @@ class CoinPage extends Component {
                             </div>
                             
                         </div>
-                        <div className="sparkLine">
-                            <HeadingH1 text="Chart" color={this.state.coin.color} />
+                        <div className="sparkLine101CoinPage">
+                            <HeadingH1 text="Chart (1D)" color={this.state.coin.color} />
                             <div>
                                 <SparkLine
                                     data={this.state.coin.sparkline} 
                                     height={200} 
                                     width={600}
                                     animate
-                                    animationDuration={2000} // Default: 1000 (milliseconds)
+                                    animationDuration={2000}
                                     color={this.state.coin.color ? this.state.coin.color : "aqua"}
-                                    includeZero={false} // Default: true
-                                    areaOpacity={1}
+                                    includeZero={false}
+                                    areaOpacity={0.7}
                                     areaColor={[this.state.coin.color ? this.state.coin.color : "aqua", 'white']}
                                 />
                             </div>
@@ -344,13 +397,17 @@ class CoinPage extends Component {
                                 whenHeadingIsClicked={this.whenHeadingIsClicked}    
                             />
                         </div>
-                        <div className="visitLinks">
+                        <div className="visitLinks101CoinPage">
                             <HeadingH1 text="Links" color={this.state.coin.color} />
                             <AllLinks links={this.state.coin.links} />
                         </div>
                     </div>
                 </div>
-            </div> : <Loader coin={this.props.coin} />
+            </div> : 
+            <div>
+                <Error error={this.state.error} />
+                <Loader coin={this.props.coin} />
+            </div>
         )
     }
   

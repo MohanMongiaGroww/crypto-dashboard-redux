@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import SuggestionList from "./SuggestionList";
+import SuggestionList from "../Suggestions/SuggestionList";
 import SearchBar from "./SearchBar";
 
-import {getCoinSuggestion} from "../utils/helpers";
-import {NO_RECORD} from "../utils/constants";
+import {getCoinSuggestion} from "../../utils/helpers";
+import {NO_RECORD} from "../../utils/constants";
 
 import "./searchBar.css";
 

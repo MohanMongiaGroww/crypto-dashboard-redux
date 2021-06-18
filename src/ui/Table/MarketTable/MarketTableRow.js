@@ -1,13 +1,13 @@
 import React from "react";
 
-import {formatNumber} from "../utils/helpers";
+import {formatNumber} from "../../../utils/helpers";
 
 
 const MarketTableRow = ({market,currency}) => {
     
     return (
         <div
-            className="coinTableEntry101HomePage addBorder" 
+            className="marketTableEntry101CoinPage" 
             style={{
                 borderTopLeftRadius:'12px',
                 borderBottomLeftRadius:'12px',
@@ -17,10 +17,10 @@ const MarketTableRow = ({market,currency}) => {
                 border : "2px solid #050f2e"
             }}
             >
-            <div className="cryptoName addBorder">
+            <div className="cryptoName">
                 <img src={market.exchange.iconUrl} className="cryptoIcon" alt={market.exchange.symbol}/><span className="coinName">{market.exchange.name}</span>
             </div>
-            <div className="addBorder">
+            <div>
                 <img src={currency?.iconUrl} alt={`${currency?.symbol}`} className="currencyIcon" />
                 <span>{formatNumber(market.price,6)}</span>
             </div>

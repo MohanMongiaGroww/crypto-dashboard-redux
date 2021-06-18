@@ -1,11 +1,12 @@
 import React from 'react';
 
-import SearchBarHolder from "../../ui/SearchBarHolder";
-import LanguageSelector from "../../ui/LanguageSelector";
-import Table from "../../ui/Table";
+import SearchBarHolder from "../../ui/SearchBar/SearchBarHolder";
+import LanguageSelector from "../../ui/LanguageSelector/LanguageSelector";
+import Table from "../../ui/Table/CoinTable/Table";
+import Error from '../../ui/Error/Error';
 
 import {getAllCoins} from "../../utils/api";
-import {ERROR_CODES} from "../../utils/constants";
+import {ERROR_CODES,API_REFETCH_TIME} from "../../utils/constants";
 import { getLocalStorageItem, setLocalStorageItem } from '../../utils/helpers';
 
 import "./homePage.css";
@@ -49,18 +50,23 @@ class HomePage extends React.Component {
             }
         })
         .catch(err => {
-            console.log(err)
             if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
             {
                 this.setState({
                     error : err.response.data.message
                 })
             }
+            else
+            {
+                this.setState({
+                    error : err.message
+                })
+            }
         });
     }
 
     apiCaller = () => {
-        this.apiCallTimerId =  setInterval(this.apiCallerFunction,20000);
+        this.apiCallTimerId =  setInterval(this.apiCallerFunction,API_REFETCH_TIME);
     }
 
     
@@ -104,9 +110,22 @@ class HomePage extends React.Component {
             .then(() => {
                 this.apiCallerFunction();
             })
-            .then(result => this.apiCaller())
+            .then(result => {
+                this.apiCaller();
+            })
             .catch(err => {
-                console.log(err);
+                if(err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY)
+                {
+                    this.setState({
+                        error : err.response.data.message
+                    })
+                }
+                else
+                {
+                    this.setState({
+                        error : err.message
+                    })
+                }
             });
     }
 
@@ -141,6 +160,17 @@ class HomePage extends React.Component {
         
     }
 
+    componentDidUpdate() {
+        if(this.state.error.length > 0)
+        {
+            setTimeout(() => {
+                this.setState({
+                    error : ""
+                });
+            },5000)
+        }
+    }
+
     componentWillUnmount() {
         if(this.apiCallTimerId)
         {
@@ -150,11 +180,9 @@ class HomePage extends React.Component {
     }
 
     getFinalRender = () => {
-        const isError = this.state.error.length > 0;
-        if(!isError)
-        {
             return (
                 <div className="div101HomePage">
+                    <Error error={this.state.error} />
                     <LanguageSelector selectedCurrency={this.props.selectedCurrency} currencies={this.props.currencies} changeCurrency={this.props.setCurrency}/>
                     <SearchBarHolder coins={this.state.coins}/>
                     <Table 
@@ -165,12 +193,6 @@ class HomePage extends React.Component {
                 </div>
             )
         }
-        return (
-            <div className="Error">
-                {this.state.error}
-            </div>
-        )
-    }
   
     render() {
         return (

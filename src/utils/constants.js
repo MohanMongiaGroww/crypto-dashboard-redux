@@ -25,7 +25,5 @@ export const DEFAULT_CURRENCY = {
     }
 }
 
-export const TABLE_TYPE = {
-    coin : "COIN",
-    market : "MARKET"
-}
+
+export const API_REFETCH_TIME = 30000;

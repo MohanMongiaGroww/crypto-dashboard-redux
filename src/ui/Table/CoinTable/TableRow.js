@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 
-import {formatNumber} from "../utils/helpers";
+import {formatNumber} from "../../../utils/helpers";
 
 
 const TableRow = ({coin,currency}) => {
@@ -15,7 +15,7 @@ const TableRow = ({coin,currency}) => {
     return (
         <Link to={`/coin/${coin.uuid}`} style={linkStyle}>
             <div
-                className="coinTableEntry101HomePage addBorder" 
+                className="coinTableEntry101HomePage" 
                 style={{
                     borderLeft : ` 7px solid ${coin.color ? coin.color : 'purple'}` , 
                     borderTopLeftRadius:'12px',
@@ -25,18 +25,18 @@ const TableRow = ({coin,currency}) => {
 
                 }}
                 >
-                <div className="cryptoName addBorder">
+                <div className="cryptoName">
                     <img src={coin.iconUrl} className="cryptoIcon" alt={coin.symbol}/><span className="coinName">{coin.name}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <img src={currency.iconUrl} alt={`${currency.symbol}`} className="currencyIcon" />
                     <span>{formatNumber(coin.price,6)}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <img src={currency.iconUrl} alt={`${currency.symbol}`} className="currencyIcon" />
                     <span>{formatNumber(coin.marketCap,3)}</span>
                 </div>
-                <div className="addBorder">
+                <div>
                     <span>{formatNumber(coin.btcPrice,10)}</span>
                 </div>
             </div>

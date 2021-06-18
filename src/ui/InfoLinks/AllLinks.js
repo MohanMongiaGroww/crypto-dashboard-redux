@@ -2,12 +2,12 @@ import React from "react";
 
 import "./allLinks.css"
 
-const AllLinks = ({links,color}) => {
+const AllLinks = ({links}) => {
 
     const getRender = () => {
         return links.map(link => {
             return (
-                <a target="__blank" href={`${link.url}`}>
+                <a key={link.url} target="__blank" href={`${link.url}`}>
                     <div className="links">
                         {`${link.name}`}
                     </div>

@@ -4,11 +4,10 @@
 }
 
 .parentContainer101CoinPage {
-  /* font-family: 'Courier New', Courier, monospace; */
   font-family: "Noto Sans JP", sans-serif;
 }
 
-.coinPageContainer {
+.coinPageContainer101CoinPage {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,12 +16,12 @@
   color: #e0e4ed;
 }
 
-.coinPageDiv {
+.coinPageDiv101CoinPage {
   width: 70%;
 }
 
 @media (max-width: 1015px) {
-  .coinPageDiv {
+  .coinPageDiv101CoinPage {
     width: 100%;
     margin-left: 20px;
     margin-right: 20px;
@@ -30,17 +29,17 @@
 }
 
 @media (min-width: 1200px) {
-  .coinPageDiv {
+  .coinPageDiv101CoinPage {
     width: 1000px;
   }
 }
 
-.coinPageDivOpaque {
+.coinPageDivOpaque101CoinPage {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-.coinPageDivRemoveOpaque {
+.coinPageDivRemoveOpaque101CoinPage {
   opacity: 1;
 }
 
@@ -57,7 +56,6 @@
   display: flex;
   align-items: center;
   padding-top: 20px;
-  /* border: 1px solid green; */
   justify-content: space-between;
 }
 
@@ -69,29 +67,24 @@
 .nameAndPriceDiv101CoinPage > * {
   background-color: var(--coinPageBlockHighlightColor);
   border-radius: 5px;
-  /* box-shadow: 0 0 2px 0.2px rgb(124, 124, 124); */
 }
 
-.coinDetails {
+.coinDetails101CoinPage {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  /* padding: 20px; */
   margin-top: 30px;
-  /* border: 1px solid green; */
 }
 
-.coinDetails > * {
-  /* border: 1px solid red; */
+.coinDetails101CoinPage > * {
   width: 33%;
   padding: 25px;
   background-color: var(--coinPageBlockHighlightColor);
   border-radius: 5px;
   margin-right: 20px;
-  /* text-align: center; */
 }
 
-.coinDetails > *:last-child {
+.coinDetails101CoinPage > *:last-child {
   margin-right: 0px;
 }
 
@@ -101,25 +94,23 @@
   align-items: center;
 }
 
-.cryptoIconCoinPage {
+.cryptoIcon101CoinPage {
   height: 8rem;
   width: 8rem;
   padding: 20px;
 }
 
-.coinPrices {
+.coinPrices101CoinPage {
   padding: 30px;
-  /* display: flex; */
   align-items: center;
 }
 
-.coinPricesChild {
-  /* width: 100%; */
+.coinPricesChild101CoinPage {
   padding-top: 20px;
   font-size: 1.3em;
 }
 
-.coinPricesChild > div > div {
+.coinPricesChild101CoinPage > div > div {
   font-weight: 900;
 }
 
@@ -128,32 +119,27 @@
     width: max-content;
     font-weight: 900;
     font-size: 0.7em;
-    /* border: 1px solid green; */
 }
 
-.coinPricesChild > div:last-child {
-    /* border: 1px solid orange; */
-}
 
-.coinPricesChild > div:last-child {
+.coinPricesChild101CoinPage > div:last-child {
     display: flex;
     justify-content:flex-end;
 }
 
-.coinInfo {
+.coinInfo101CoinPage {
   font-size: 1.3em;
   padding-top: 26px;
   font-weight: 700;
 }
 
-.priceIcon {
+.priceIcon101CoinPage {
   height: 2rem;
   width: 2rem;
   padding-right: 8px;
 }
 
-.coinDetails > *:last-child .coinInfo span {
-  /* border: 1px solid red; */
+.coinDetails101CoinPage > *:last-child .coinInfo101CoinPage span {
   position: absolute;
 }
 
@@ -172,7 +158,6 @@
 .description101CoinPage > div h3 {
     font-size: 1.5em;
     padding: 25px 0px 0px 0px;
-    /* text-decoration: underline; */
 }
 
 .description101CoinPage > div a {
@@ -202,7 +187,7 @@
   }
 }
 
-.market101CoinPage , .visitLinks , .sparkLine {
+.market101CoinPage , .visitLinks101CoinPage , .sparkLine101CoinPage {
   background-color: var(--coinPageBlockHighlightColor);
   margin-top: 30px;
   margin-bottom: 30px;
@@ -211,7 +196,7 @@
 }
 
 
-.sparkLine > *:nth-child(2) {
+.sparkLine101CoinPage > *:nth-child(2) {
   display: flex;
   justify-content: center;
   align-items: center;
