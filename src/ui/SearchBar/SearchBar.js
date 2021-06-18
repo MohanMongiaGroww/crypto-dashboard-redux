@@ -1,9 +1,10 @@
 import React from "react";
 
-import "./searchBar.css";
+import { REFRESH_TIMES } from "../../utils/constants";
 
 import CoinSVG from "../../static/coin.svg";
 
+import "./searchBar.css";
 class SearchBar extends React.Component {
   state = {
     term: "",
@@ -20,7 +21,7 @@ class SearchBar extends React.Component {
       clearTimeout(this.timerId);
       this.timerId = null;
     }
-    this.timerId = setTimeout(this.props.whenSearchTermChanges, 1000, value);
+    this.timerId = setTimeout(this.props.whenSearchTermChanges, REFRESH_TIMES.SEARCH_BAR_SUGGESTIONS_TIME, value);
   };
 
   render() {

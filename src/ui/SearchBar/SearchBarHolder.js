@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import SuggestionList from "../Suggestions/SuggestionList";
-import SearchBar from "./SearchBar";
-
 import {getCoinSuggestion} from "../../utils/helpers";
 import {NO_RECORD} from "../../utils/constants";
+
+import SuggestionList from "../Suggestions/SuggestionList";
+import SearchBar from "./SearchBar";
 
 import "./searchBar.css";
 
@@ -24,7 +24,7 @@ class SearchBarHolder extends Component {
         else
         {
             const matchingSuggestions = getCoinSuggestion(value,this.props.coins);
-            if(matchingSuggestions.length > 0)
+            if(matchingSuggestions &&  matchingSuggestions.length > 0)
             {
                 this.setState({
                     suggestions: matchingSuggestions

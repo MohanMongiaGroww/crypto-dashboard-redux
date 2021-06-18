@@ -11,7 +11,7 @@ import Error from '../../ui/Error/Error';
 
 
 import {getSingleCoin,getCoinMarkets} from "../../utils/api";
-import {ERROR_CODES,API_REFETCH_TIME} from "../../utils/constants";
+import {ERROR_CODES,REFRESH_TIMES} from "../../utils/constants";
 import { formatNumber, setLocalStorageItem ,getLocalStorageItem} from '../../utils/helpers';
 
 import "./coinPage.css";
@@ -130,8 +130,8 @@ class CoinPage extends Component {
     }
 
     apiCaller = () => {
-        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,API_REFETCH_TIME);
-        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,API_REFETCH_TIME);
+        this.coinApiCallTimerId =  setInterval(this.coinApiCallerFunction,REFRESH_TIMES.API_REFETCH_TIME);
+        this.marketApiCallTimerId =  setInterval(this.marketApiCallerFunction,REFRESH_TIMES.API_REFETCH_TIME);
     }
 
     componentDidMount() {

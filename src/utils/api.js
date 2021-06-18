@@ -1,12 +1,12 @@
 import axios from "axios";
 
-import {DEFAULT_CURRENCY, KEYS} from "./constants";
+import {DEFAULT_CURRENCY, CURRENCY_TYPES} from "./constants";
 import {ROUTES} from "./apiRoutes";
 
 const axiosInstance = axios.create({
-    baseURL:"https://api.coinranking.com/v2/",
+    baseURL:ROUTES.BASE_URL,
     headers:{
-        "x-access-token": KEYS.API_KEY,
+        "x-access-token": process.env.REACT_APP_API_KEY,
         "pragma": "no-cache",
         "cache-control": "no-cache",
     }
@@ -39,7 +39,7 @@ export function getSingleCoin(uuid,currency) {
 export function getFiatCurrencies() {
     return axiosInstance.get(`${ROUTES.GET_CURRENCIES}`,{
         params:{
-            types : ["fiat"],
+            types : [CURRENCY_TYPES.FIAT],
             limit: 5
         }
     })
@@ -50,6 +50,7 @@ export function getCoinMarkets(uuid,currency) {
     {
         currency = DEFAULT_CURRENCY.USD_DOLLAR;
     }
+
     return axiosInstance.get(`${ROUTES.GET_COIN_MARKETS}${uuid}/markets`,{
         params : {
             referenceCurrencyUuid : currency

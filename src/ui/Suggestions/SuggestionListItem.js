@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import { NO_RECORD } from "../../utils/constants";
 
-
 import "./suggestionList.css";
 
 const SuggestionListItem = ({coin}) => {
