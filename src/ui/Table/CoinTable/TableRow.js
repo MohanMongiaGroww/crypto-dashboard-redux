@@ -15,7 +15,7 @@ const TableRow = ({coin,currency}) => {
     return (
         <Link to={`/coin/${coin.uuid}`} style={linkStyle}>
             <div
-                className="coinTableEntry101HomePage addBorder" 
+                className="coinTableEntry101HomePage" 
                 style={{
                     borderLeft : ` 7px solid ${coin.color ? coin.color : 'purple'}` , 
                     borderTopLeftRadius:'12px',

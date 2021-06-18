@@ -384,7 +384,7 @@ class CoinPage extends Component {
                                     animationDuration={2000}
                                     color={this.state.coin.color ? this.state.coin.color : "aqua"}
                                     includeZero={false}
-                                    areaOpacity={1}
+                                    areaOpacity={0.7}
                                     areaColor={[this.state.coin.color ? this.state.coin.color : "aqua", 'white']}
                                 />
                             </div>

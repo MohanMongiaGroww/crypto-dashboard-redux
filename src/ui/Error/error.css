@@ -10,6 +10,7 @@
     background-color: #091741;
     border-radius: 10px;
     font-weight: 900;
+    font-family: 'Noto Sans JP', sans-serif;
     animation: move 0.5s ease-in-out 0s 1;
 }
 

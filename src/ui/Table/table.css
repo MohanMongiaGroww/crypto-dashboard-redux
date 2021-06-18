@@ -170,7 +170,6 @@
     width: 2em;
     padding-left: 2.5px;
     display: inline-block;
-    /* border-radius: 50%; */
 }
 
 .coinName {
@@ -182,7 +181,7 @@
 
 
 
-.coinTableEntry101HomePage:hover .cryptoName img, .marketTableHeading101CoinPage:hover .cryptoName img {
+.coinTableEntry101HomePage:hover .cryptoName img, .marketTableEntry101CoinPage:hover .cryptoName img {
     animation: crypto 0.75s ease infinite 0s;
 }
 
@@ -196,7 +195,7 @@
     }
 }
 
-.coinTableEntry101HomePage , .marketTableHeading101CoinPage {
+.coinTableEntry101HomePage , .marketTableEntry101CoinPage {
     opacity: 1;
     position: relative;
     animation: opacity 0.5s ease-in-out;
