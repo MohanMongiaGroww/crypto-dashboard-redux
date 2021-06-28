@@ -88,7 +88,6 @@
   margin-right: 0px;
 }
 
-
 .nameAndPriceDiv101CoinPage > * :first-child {
   display: flex;
   align-items: center;
@@ -115,16 +114,15 @@
 }
 
 .priceChange101CoinPage {
-    display: inline-block;
-    width: max-content;
-    font-weight: 900;
-    font-size: 0.7em;
+  display: inline-block;
+  width: max-content;
+  font-weight: 900;
+  font-size: 0.7em;
 }
 
-
 .coinPricesChild101CoinPage > div:last-child {
-    display: flex;
-    justify-content:flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .coinInfo101CoinPage {
@@ -156,22 +154,21 @@
 }
 
 .description101CoinPage > div h3 {
-    font-size: 1.5em;
-    padding: 25px 0px 0px 0px;
+  font-size: 1.5em;
+  padding: 25px 0px 0px 0px;
 }
 
 .description101CoinPage > div a {
   text-decoration: none;
-  color:chocolate;
+  color: chocolate;
   font-weight: 900;
 }
 
 .description101CoinPage > div a:hover {
   text-decoration: underline;
-  color:aqua;
+  color: aqua;
   font-weight: 900;
 }
-
 
 .coinIconAndName101CoinPage:hover > *:first-child img {
   animation: cryptoCoinPage 0.75s ease infinite 0s;
@@ -187,14 +184,15 @@
   }
 }
 
-.market101CoinPage , .visitLinks101CoinPage , .sparkLine101CoinPage {
+.market101CoinPage,
+.visitLinks101CoinPage,
+.sparkLine101CoinPage {
   background-color: var(--coinPageBlockHighlightColor);
   margin-top: 30px;
   margin-bottom: 30px;
   padding: 25px;
   border-radius: 5px;
 }
-
 
 .sparkLine101CoinPage > *:nth-child(2) {
   display: flex;

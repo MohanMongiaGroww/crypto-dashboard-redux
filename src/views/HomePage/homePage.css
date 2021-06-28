@@ -1,13 +1,11 @@
 :root {
-    --fontColor : #FFFFFF;
-    --coinPageBlockHighlightColor : #091741;
+  --fontColor: #ffffff;
+  --coinPageBlockHighlightColor: #091741;
 }
 
-
 .div101HomePage {
-    padding: 0px;
-    margin: 0px;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--fontColor);
-    /* border: 1px solid purple; */
+  padding: 0px;
+  margin: 0px;
+  font-family: "Noto Sans JP", sans-serif;
+  color: var(--fontColor);
 }
