@@ -1,54 +1,53 @@
 .container {
-    display: flex;
-    justify-content: center;
-    width: 80%;
-    margin: 10px auto;
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: 10px auto;
 }
 
 .searchBarHolder {
-    position: relative;
+  position: relative;
 }
 
 .searchBar {
-    display: flex;
-    width: max-content;
+  display: flex;
+  width: max-content;
 }
 
 .searchBarLabel {
-    font-size: max(25px,min(2vw));
-    font-weight: 300;
-    padding-right: 10px;
-    font-weight: 900;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  font-size: max(25px, min(2vw));
+  font-weight: 300;
+  padding-right: 10px;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .coinSearchBar {
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    background-color: #091741;
-    width: 400px;
-    padding: 18px 20px 17px 50px;
-    margin: 10px 5px 10px 5px;
-    color: white;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background-color: #091741;
+  width: 400px;
+  padding: 18px 20px 17px 50px;
+  margin: 10px 5px 10px 5px;
+  color: white;
 }
 
 .coinSearchBar::placeholder {
-    color: rgb(143, 143, 143);
+  color: rgb(143, 143, 143);
 }
 
-
 .parentSearchBar {
-    position: relative;    
+  position: relative;
 }
 
 .searchBarIcon {
-    position: absolute;
-    
-    height: 30px;
-    width: 30px;
-    top: 21px;
-    left: 18px;
+  position: absolute;
+
+  height: 30px;
+  width: 30px;
+  top: 21px;
+  left: 18px;
 }

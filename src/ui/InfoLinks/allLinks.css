@@ -1,32 +1,32 @@
 .allLinks {
-    padding-top: 50px;
+  padding-top: 50px;
 }
 
 .allLinks > a {
-    display : inline-block;
-    text-decoration : none;
-    color : chocolate;
-    font-weight : 900;
-    margin : 10px 10px;
-    padding : 10px 0px;
-    border-radius : 5px;
-    transition : color 0.3s ease-in-out
+  display: inline-block;
+  text-decoration: none;
+  color: chocolate;
+  font-weight: 900;
+  margin: 10px 10px;
+  padding: 10px 0px;
+  border-radius: 5px;
+  transition: color 0.3s ease-in-out;
 }
 
 .links {
-    display: inline;
-    border : 1px solid chocolate;
-    width : max-content;
-    border-radius : 5px;
-    margin : 10px 0px;
-    padding: 10px;
-    transition : background-color 0.3s ease-in-out
+  display: inline;
+  border: 1px solid chocolate;
+  width: max-content;
+  border-radius: 5px;
+  margin: 10px 0px;
+  padding: 10px;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .allLinks > a:hover {
-    color: white ;
+  color: white;
 }
 
 .allLinks > a:hover .links {
-    background-color: chocolate;
+  background-color: chocolate;
 }

@@ -21,7 +21,11 @@ class SearchBar extends React.Component {
       clearTimeout(this.timerId);
       this.timerId = null;
     }
-    this.timerId = setTimeout(this.props.whenSearchTermChanges, REFRESH_TIMES.SEARCH_BAR_SUGGESTIONS_TIME, value);
+    this.timerId = setTimeout(
+      this.props.whenSearchTermChanges,
+      REFRESH_TIMES.SEARCH_BAR_SUGGESTIONS_TIME,
+      value
+    );
   };
 
   render() {
