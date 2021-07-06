@@ -145,7 +145,16 @@ class CoinPage extends Component {
   // };
 
   componentDidMount() {
-    this.props.fetchSingleCoin(this.props.selectedCoin.uuid);
+    let coinUuid = this.props.selectedCoin.uuid;
+    if(coinUuid === undefined || coinUuid === null)
+    {
+      let path = window.location.pathname;
+      if(path.startsWith("/coin/"))
+      {
+        coinUuid = path.substr(6);
+      }
+    }
+    this.props.fetchSingleCoin(coinUuid);
     // const markets = getLocalStorageItem("markets");
     // if (markets) {
     //   this.setState({
@@ -314,7 +323,9 @@ class CoinPage extends Component {
   };
 
   getFinalRender = () => {
-    const coinDataRecieved = this.props.coin.uuid === this.props.selectedCoin.uuid;
+    const coin = this.props.coin
+    const coinDataRecieved = coin.uuid;
+    console.log(coinDataRecieved)
     return coinDataRecieved ? (
       <div className="parentContainer101CoinPage">
         <Error error={this.state.error} />
