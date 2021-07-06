@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 
 export function getAllCoins(currency) {
   if (currency === null || currency === undefined) {
-    currency = DEFAULT_CURRENCY.USD_DOLLAR;
+    currency = DEFAULT_CURRENCY.USD_DOLLAR.uuid;
   }
   return axiosInstance.get(ROUTES.ALL_COINS, {
     params: {
@@ -25,7 +25,7 @@ export function getAllCoins(currency) {
 
 export function getSingleCoin(uuid, currency) {
   if (currency === null || currency === undefined) {
-    currency = DEFAULT_CURRENCY.USD_DOLLAR;
+    currency = DEFAULT_CURRENCY.USD_DOLLAR.uuid;
   }
   return axiosInstance.get(`${ROUTES.SINGLE_COIN}${uuid}`, {
     params: {

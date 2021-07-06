@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { formatNumber } from "../../../utils/helpers";
 
-const TableRow = ({ coin, currency }) => {
+const TableRow = ({ coin, currency}) => {
   const linkStyle = {
     color: "white",
     padding: "5px",

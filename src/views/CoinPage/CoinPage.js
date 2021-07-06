@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SparkLine from "react-canvas-spark-line";
+import { connect } from "react-redux";
 
 import HeadingH1 from "../../ui/Headings/HeadingH1";
 import HeadingH2 from "../../ui/Headings/HeadingH2";
@@ -17,247 +18,250 @@ import {
   getLocalStorageItem,
 } from "../../utils/helpers";
 
+import { fetchSingleCoin } from "../../store/actionCreators";
+
 import "./coinPage.css";
 
 class CoinPage extends Component {
   state = {
     coin: {},
-    markets: [],
-    uuid: "",
+    // markets: [],
+    // uuid: "",
     error: "",
   };
 
-  sortingBool = {
-    price: true,
-    name: true,
-    btcPrice: true,
-    marketShare: true,
-  };
+  // sortingBool = {
+  //   price: true,
+  //   name: true,
+  //   btcPrice: true,
+  //   marketShare: true,
+  // };
 
-  doSorting = (sortedMarkets, field) => {
-    sortedMarkets.sort((marketA, marketB) => {
-      const ascending = this.sortingBool[field];
-      if (field === "name") {
-        return ascending
-          ? marketA.exchange[field] > marketB.exchange[field]
-            ? 1
-            : -1
-          : marketA.exchange[field] < marketB.exchange[field]
-          ? 1
-          : -1;
-      }
-      return ascending
-        ? marketB[field] - marketA[field]
-        : marketA[field] - marketB[field];
-    });
-  };
+  // doSorting = (sortedMarkets, field) => {
+  //   sortedMarkets.sort((marketA, marketB) => {
+  //     const ascending = this.sortingBool[field];
+  //     if (field === "name") {
+  //       return ascending
+  //         ? marketA.exchange[field] > marketB.exchange[field]
+  //           ? 1
+  //           : -1
+  //         : marketA.exchange[field] < marketB.exchange[field]
+  //         ? 1
+  //         : -1;
+  //     }
+  //     return ascending
+  //       ? marketB[field] - marketA[field]
+  //       : marketA[field] - marketB[field];
+  //   });
+  // };
 
-  whenHeadingIsClicked = (field) => {
-    const sortedMarkets = [...this.state.markets];
+  // whenHeadingIsClicked = (field) => {
+  //   const sortedMarkets = [...this.state.markets];
 
-    this.doSorting(sortedMarkets, field);
+  //   this.doSorting(sortedMarkets, field);
 
-    this.sortingBool[field] = !this.sortingBool[field];
+  //   this.sortingBool[field] = !this.sortingBool[field];
 
-    this.setState({
-      markets: [...sortedMarkets],
-    });
-  };
+  //   this.setState({
+  //     markets: [...sortedMarkets],
+  //   });
+  // };
 
-  coinApiCallTimerId = null;
-  marketApiCallTimerId = null;
+  // coinApiCallTimerId = null;
+  // marketApiCallTimerId = null;
 
-  coinApiCallerFunction = () => {
-    getSingleCoin(this.state.uuid, this.props.selectedCurrency.uuid)
-      .then((result) => {
-        if (result.status === ERROR_CODES.SUCCESS) {
-          this.setState(
-            {
-              coin: result.data.data.coin,
-            },
-            () => {
-              setLocalStorageItem("coin", this.state.coin);
-            }
-          );
-        }
-      })
-      .catch((err) => {
-        if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-          this.setState({
-            error: err.response.data.message,
-          });
-        } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
-          this.setState({
-            error: err.response.data.message,
-          });
-        } else {
-          this.setState({
-            error: err.message,
-          });
-        }
-      });
-  };
+  // coinApiCallerFunction = () => {
+  //   getSingleCoin(this.state.uuid, this.props.selectedCurrency.uuid)
+  //     .then((result) => {
+  //       if (result.status === ERROR_CODES.SUCCESS) {
+  //         this.setState(
+  //           {
+  //             coin: result.data.data.coin,
+  //           },
+  //           () => {
+  //             setLocalStorageItem("coin", this.props.coin);
+  //           }
+  //         );
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
+  //         this.setState({
+  //           error: err.response.data.message,
+  //         });
+  //       } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
+  //         this.setState({
+  //           error: err.response.data.message,
+  //         });
+  //       } else {
+  //         this.setState({
+  //           error: err.message,
+  //         });
+  //       }
+  //     });
+  // };
 
-  marketApiCallerFunction = () => {
-    getCoinMarkets(this.state.uuid, this.props.selectedCurrency.uuid)
-      .then((result) => {
-        if (result.status === ERROR_CODES.SUCCESS) {
-          this.setState(
-            {
-              markets: result.data.data.markets,
-            },
-            () => {
-              setLocalStorageItem("markets", this.state.markets);
-            }
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-          this.setState({
-            error: err.response.data.message,
-          });
-        } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
-          this.setState({
-            error: err.response.data.message,
-          });
-        } else {
-          this.setState({
-            error: err.message,
-          });
-        }
-      });
-  };
+  // marketApiCallerFunction = () => {
+  //   getCoinMarkets(this.state.uuid, this.props.selectedCurrency.uuid)
+  //     .then((result) => {
+  //       if (result.status === ERROR_CODES.SUCCESS) {
+  //         this.setState(
+  //           {
+  //             markets: result.data.data.markets,
+  //           },
+  //           () => {
+  //             setLocalStorageItem("markets", this.state.markets);
+  //           }
+  //         );
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
+  //         this.setState({
+  //           error: err.response.data.message,
+  //         });
+  //       } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
+  //         this.setState({
+  //           error: err.response.data.message,
+  //         });
+  //       } else {
+  //         this.setState({
+  //           error: err.message,
+  //         });
+  //       }
+  //     });
+  // };
 
-  apiCaller = () => {
-    this.coinApiCallTimerId = setInterval(
-      this.coinApiCallerFunction,
-      REFRESH_TIMES.API_REFETCH_TIME
-    );
-    this.marketApiCallTimerId = setInterval(
-      this.marketApiCallerFunction,
-      REFRESH_TIMES.API_REFETCH_TIME
-    );
-  };
+  // apiCaller = () => {
+  //   this.coinApiCallTimerId = setInterval(
+  //     this.coinApiCallerFunction,
+  //     REFRESH_TIMES.API_REFETCH_TIME
+  //   );
+  //   this.marketApiCallTimerId = setInterval(
+  //     this.marketApiCallerFunction,
+  //     REFRESH_TIMES.API_REFETCH_TIME
+  //   );
+  // };
 
   componentDidMount() {
-    const markets = getLocalStorageItem("markets");
-    if (markets) {
-      this.setState({
-        markets: markets,
-      });
-    }
+    this.props.fetchSingleCoin(this.props.selectedCoin.uuid);
+    // const markets = getLocalStorageItem("markets");
+    // if (markets) {
+    //   this.setState({
+    //     markets: markets,
+    //   });
+    // }
 
-    const coin = JSON.parse(localStorage.getItem("coin"));
-    if (coin && coin.uuid === this.props.match.params.uuid) {
-      this.setState({
-        coin: coin,
-      });
-    }
+    // const coin = JSON.parse(localStorage.getItem("coin"));
+    // if (coin && coin.uuid === this.props.match.params.uuid) {
+    //   this.setState({
+    //     coin: coin,
+    //   });
+    // }
 
-    this.setState(
-      {
-        uuid: this.props.match.params.uuid,
-      },
-      () => {
-        Promise.resolve()
-          .then(() => {
-            this.coinApiCallerFunction();
-            this.marketApiCallerFunction();
-          })
-          .then((result) => this.apiCaller())
-          .catch((err) => {
-            if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-              this.setState({
-                error: err.response.data.message,
-              });
-            } else {
-              this.setState({
-                error: err.message,
-              });
-            }
-          });
-      }
-    );
+    // this.setState(
+    //   {
+    //     uuid: this.props.match.params.uuid,
+    //   },
+    //   () => {
+    //     Promise.resolve()
+    //       .then(() => {
+    //         this.coinApiCallerFunction();
+    //         this.marketApiCallerFunction();
+    //       })
+    //       .then((result) => this.apiCaller())
+    //       .catch((err) => {
+    //         if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
+    //           this.setState({
+    //             error: err.response.data.message,
+    //           });
+    //         } else {
+    //           this.setState({
+    //             error: err.message,
+    //           });
+    //         }
+    //       });
+    //   }
+    // );
   }
 
-  errorDisplayTimerId = null;
+  // errorDisplayTimerId = null;
 
-  componentDidUpdate() {
-    if (this.state.error?.length > 0) {
-      this.errorDisplayTimerId = setTimeout(() => {
-        this.setState({
-          error: "",
-        });
-      }, 5000);
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.state.error?.length > 0) {
+  //     this.errorDisplayTimerId = setTimeout(() => {
+  //       this.setState({
+  //         error: "",
+  //       });
+  //     }, 5000);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    if (this.coinApiCallTimerId) {
-      clearInterval(this.coinApiCallTimerId);
-      this.coinApiCallTimerId = null;
-    }
-    if (this.marketApiCallTimerId) {
-      clearInterval(this.marketApiCallTimerId);
-      this.marketApiCallTimerId = null;
-    }
-    if (this.errorDisplayTimerId) {
-      clearTimeout(this.errorDisplayTimerId);
-      this.errorDisplayTimerId = null;
-    }
-  }
+  // componentWillUnmount() {
+  //   if (this.coinApiCallTimerId) {
+  //     clearInterval(this.coinApiCallTimerId);
+  //     this.coinApiCallTimerId = null;
+  //   }
+  //   if (this.marketApiCallTimerId) {
+  //     clearInterval(this.marketApiCallTimerId);
+  //     this.marketApiCallTimerId = null;
+  //   }
+  //   if (this.errorDisplayTimerId) {
+  //     clearTimeout(this.errorDisplayTimerId);
+  //     this.errorDisplayTimerId = null;
+  //   }
+  // }
 
-  shouldComponentUpdate(nextProps, newState) {
-    if (
-      JSON.stringify(this.props.selectedCurrency) !==
-      JSON.stringify(nextProps.selectedCurrency)
-    ) {
-      if (this.coinApiCallTimerId) {
-        clearInterval(this.coinApiCallTimerId);
-        this.coinApiCallTimerId = null;
-      }
-      if (this.marketApiCallTimerId) {
-        clearInterval(this.marketApiCallTimerId);
-        this.marketApiCallTimerId = null;
-      }
-      Promise.resolve()
-        .then(() => {
-          this.coinApiCallerFunction();
-          this.marketApiCallerFunction();
-        })
-        .then((result) => this.apiCaller())
-        .then((result) => true)
-        .catch((err) => {
-          if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-            this.setState({
-              error: err.response.data.message,
-            });
-          } else {
-            this.setState({
-              error: err.message,
-            });
-          }
-        });
-    }
-    if (JSON.stringify(newState.coin) !== JSON.stringify(this.state.coin)) {
-      return true;
-    }
-    if (
-      JSON.stringify(newState.markets) !== JSON.stringify(this.state.markets)
-    ) {
-      return true;
-    }
-    if (JSON.stringify(newState.error) !== JSON.stringify(this.state.error)) {
-      return true;
-    }
-    if (JSON.stringify(newState.uuid) !== JSON.stringify(this.state.uuid)) {
-      return true;
-    }
+  // shouldComponentUpdate(nextProps, newState) {
+  //   if (
+  //     JSON.stringify(this.props.selectedCurrency) !==
+  //     JSON.stringify(nextProps.selectedCurrency)
+  //   ) {
+  //     if (this.coinApiCallTimerId) {
+  //       clearInterval(this.coinApiCallTimerId);
+  //       this.coinApiCallTimerId = null;
+  //     }
+  //     if (this.marketApiCallTimerId) {
+  //       clearInterval(this.marketApiCallTimerId);
+  //       this.marketApiCallTimerId = null;
+  //     }
+  //     Promise.resolve()
+  //       .then(() => {
+  //         this.coinApiCallerFunction();
+  //         this.marketApiCallerFunction();
+  //       })
+  //       .then((result) => this.apiCaller())
+  //       .then((result) => true)
+  //       .catch((err) => {
+  //         if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
+  //           this.setState({
+  //             error: err.response.data.message,
+  //           });
+  //         } else {
+  //           this.setState({
+  //             error: err.message,
+  //           });
+  //         }
+  //       });
+  //   }
+  //   if (JSON.stringify(newState.coin) !== JSON.stringify(this.props.coin)) {
+  //     return true;
+  //   }
+  //   if (
+  //     JSON.stringify(newState.markets) !== JSON.stringify(this.state.markets)
+  //   ) {
+  //     return true;
+  //   }
+  //   if (JSON.stringify(newState.error) !== JSON.stringify(this.state.error)) {
+  //     return true;
+  //   }
+  //   if (JSON.stringify(newState.uuid) !== JSON.stringify(this.state.uuid)) {
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   coinPageDivRef = React.createRef();
 
@@ -276,7 +280,7 @@ class CoinPage extends Component {
   headingStyle = {};
 
   priceChangeStyles = () => {
-    const change = Number.parseFloat(this.state.coin.change);
+    const change = Number.parseFloat(this.props.coin.change);
     let result = {};
     if (change > 0) {
       result = {
@@ -295,31 +299,26 @@ class CoinPage extends Component {
   };
 
   getPricesForSparkline = () => {
-    const val = this.state.coin.sparkline;
+    const val = this.props.coin.sparkline;
     return val.map((value) => {
       return Number(value);
     });
   };
 
   getPriceChange = () => {
-    const increase = this.state.coin.change > 0 ? 1 : 0;
+    const increase = this.props.coin.change > 0 ? 1 : 0;
     if (increase === 1) {
-      return `+${formatNumber(this.state.coin.change, 2)}%`;
+      return `+${formatNumber(this.props.coin.change, 2)}%`;
     }
-    return `${formatNumber(this.state.coin.change, 2)}%`;
+    return `${formatNumber(this.props.coin.change, 2)}%`;
   };
 
   getFinalRender = () => {
-    const coinDataRecieved =
-      JSON.stringify(this.state.coin) !== JSON.stringify({});
+    const coinDataRecieved = this.props.coin.uuid === this.props.selectedCoin.uuid;
     return coinDataRecieved ? (
       <div className="parentContainer101CoinPage">
         <Error error={this.state.error} />
-        <LanguageSelector
-          selectedCurrency={this.props.selectedCurrency}
-          currencies={this.props.currencies}
-          changeCurrency={this.props.setCurrency}
-        />
+        <LanguageSelector />
         <div className="coinPageContainer101CoinPage">
           <div
             ref={this.coinPageDivRef}
@@ -329,22 +328,22 @@ class CoinPage extends Component {
             <div className="nameAndPriceDiv101CoinPage">
               <div className="coinIconAndName101CoinPage">
                 <a
-                  target={this.state.coin.websiteUrl ? "_blank" : "_self"}
+                  target={this.props.coin.websiteUrl ? "_blank" : "_self"}
                   rel="noreferrer"
                   href={`${
-                    this.state.coin.websiteUrl ? this.state.coin.websiteUrl : ""
+                    this.props.coin.websiteUrl ? this.props.coin.websiteUrl : ""
                   }`}
                   style={this.linkStyle}
                 >
                   <div>
                     <img
-                      src={this.state.coin.iconUrl}
+                      src={this.props.coin.iconUrl}
                       className="cryptoIcon101CoinPage"
                       alt="crypto-icon"
                     />
                   </div>
                   <div className="nameHeading101CoinPage">
-                    {this.state.coin.name}({this.state.coin.symbol})
+                    {this.props.coin.name}({this.props.coin.symbol})
                   </div>
                 </a>
               </div>
@@ -352,7 +351,7 @@ class CoinPage extends Component {
                 <HeadingH2
                   className="heading101CoinPage"
                   text="Price"
-                  color={this.state.coin.color}
+                  color={this.props.coin.color}
                 />
                 <div className="coinPricesChild101CoinPage">
                   <div>
@@ -361,7 +360,7 @@ class CoinPage extends Component {
                       className="priceIcon101CoinPage"
                       alt="SYM"
                     />
-                    <div>{formatNumber(this.state.coin.price, 6)}</div>
+                    <div>{formatNumber(this.props.coin.price, 6)}</div>
                   </div>
                   <div>
                     <span
@@ -379,27 +378,27 @@ class CoinPage extends Component {
                 <HeadingH2
                   className="heading101CoinPage"
                   text="Rank"
-                  color={this.state.coin.color}
+                  color={this.props.coin.color}
                 />
                 <div className="coinInfo101CoinPage">
-                  {this.state.coin.rank}
+                  {this.props.coin.rank}
                 </div>
               </div>
               <div>
                 <HeadingH2
                   className="heading101CoinPage"
                   text="Supply"
-                  color={this.state.coin.color}
+                  color={this.props.coin.color}
                 />
                 <div className="coinInfo101CoinPage">
-                  {formatNumber(this.state.coin?.supply?.total)}
+                  {formatNumber(this.props.coin?.supply?.total)}
                 </div>
               </div>
               <div>
                 <HeadingH2
                   className="heading101CoinPage"
                   text="All Time High"
-                  color={this.state.coin.color}
+                  color={this.props.coin.color}
                 />
                 <div className="coinInfo101CoinPage">
                   <img
@@ -408,23 +407,23 @@ class CoinPage extends Component {
                     alt="SYM"
                   />
                   <span>
-                    {formatNumber(this.state.coin.allTimeHigh?.price, 6)}
+                    {formatNumber(this.props.coin.allTimeHigh?.price, 6)}
                   </span>
                 </div>
               </div>
             </div>
             <div className="description101CoinPage">
-              <HeadingH1 text="About" color={this.state.coin.color} />
+              <HeadingH1 text="About" color={this.props.coin.color} />
               <div
                 dangerouslySetInnerHTML={{
                   __html: `${
-                    this.state.coin.description || "No Description Available"
+                    this.props.coin.description || "No Description Available"
                   }`,
                 }}
               ></div>
             </div>
             <div className="sparkLine101CoinPage">
-              <HeadingH1 text="Chart (1D)" color={this.state.coin.color} />
+              <HeadingH1 text="Chart (1D)" color={this.props.coin.color} />
               <div>
                 <SparkLine
                   data={this.getPricesForSparkline()}
@@ -432,27 +431,27 @@ class CoinPage extends Component {
                   width={600}
                   animate
                   animationDuration={2000}
-                  color={this.state.coin.color ? this.state.coin.color : "aqua"}
+                  color={this.props.coin.color ? this.props.coin.color : "aqua"}
                   includeZero={false}
                   areaOpacity={0.7}
                   areaColor={[
-                    this.state.coin.color ? this.state.coin.color : "aqua",
+                    this.props.coin.color ? this.props.coin.color : "aqua",
                     "white",
                   ]}
                 />
               </div>
             </div>
             <div className="market101CoinPage">
-              <HeadingH1 text="Market" color={this.state.coin.color} />
-              <MarketTable
+              <HeadingH1 text="Market" color={this.props.coin.color} />
+              {/* <MarketTable
                 markets={this.state.markets}
                 currency={this.props.selectedCurrency}
                 whenHeadingIsClicked={this.whenHeadingIsClicked}
-              />
+              /> */}
             </div>
             <div className="visitLinks101CoinPage">
-              <HeadingH1 text="Links" color={this.state.coin.color} />
-              <AllLinks links={this.state.coin.links} />
+              <HeadingH1 text="Links" color={this.props.coin.color} />
+              <AllLinks links={this.props.coin.links} />
             </div>
           </div>
         </div>
@@ -460,7 +459,7 @@ class CoinPage extends Component {
     ) : (
       <div>
         <Error error={this.state.error} />
-        <Loader coin={this.props.coin} />
+        <Loader coin={this.props.selectedCoin} />
       </div>
     );
   };
@@ -470,4 +469,11 @@ class CoinPage extends Component {
   }
 }
 
-export default CoinPage;
+const mapStateToProps = (state) => {
+  return {
+    coin : state.coin,
+    selectedCurrency : state.selectedCurrency
+  }
+}
+
+export default connect(mapStateToProps, {fetchSingleCoin})(CoinPage);
