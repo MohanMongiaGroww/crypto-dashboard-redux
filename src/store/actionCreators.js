@@ -9,10 +9,7 @@ import {
 } from "./actionTypes";
 
 export const fetchCoins = () => async (dispatch, getState) => {
-  let referenceCurrency = getState().selectCurrency;
-  if (!referenceCurrency) {
-    referenceCurrency = DEFAULT_CURRENCY.USD_DOLLAR;
-  }
+  let referenceCurrency = getState().selectedCurrency;
   const coins = await getAllCoins(referenceCurrency.uuid);
   dispatch({
     type: FETCH_CRYPTO_COINS,
@@ -21,23 +18,13 @@ export const fetchCoins = () => async (dispatch, getState) => {
 };
 
 export const fetchSingleCoin = (uuid) => async (dispatch, getState) => {
-  let referenceCurrency = getState().selectCurrency;
-  if (!referenceCurrency) {
-    referenceCurrency = DEFAULT_CURRENCY.USD_DOLLAR;
-  }
+  let referenceCurrency = getState().selectedCurrency;
   const coin = await getSingleCoin(uuid,referenceCurrency.uuid);
   dispatch({
       type: FETCH_SINGLE_COIN,
       payload: coin.data.data.coin
   });
 };
-
-// export const selectCoin = (coin) => {
-//     return {
-//         type : SELECT_COIN,
-//         payload : coin
-//     }
-// }
 
 export const fetchCurrencies = () => async (dispatch) => {
   let currencies = null;
@@ -48,13 +35,18 @@ export const fetchCurrencies = () => async (dispatch) => {
   });
 };
 
-export const selectCurrency = (currency) => async (dispatch, getState) => {
+export const selectCurrency = (currency,pathname) => async (dispatch, getState) => {
   const oldSelectedCurrency = getState().selectCurrency;
+  await dispatch({
+    type: SELECT_REFERENCE_CURRENCY,
+    payload: currency,
+  });
   if (!(oldSelectedCurrency && oldSelectedCurrency.uuid === currency.uuid)) {
-    // dispatch new prices
-    dispatch({
-      type: SELECT_REFERENCE_CURRENCY,
-      payload: currency,
-    });
-  }
-};
+    console.log("entered");
+    console.log(pathname.substr(6));
+    if(pathname === "/")
+      dispatch(fetchCoins());
+    else if(pathname.startsWith("/coin/"))
+      dispatch(fetchSingleCoin(pathname.substr(6)));
+    }
+}
