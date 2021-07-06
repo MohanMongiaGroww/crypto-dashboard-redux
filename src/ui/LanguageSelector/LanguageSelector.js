@@ -7,7 +7,7 @@ import "./languageSelector.css";
 class LanguageSelector extends React.PureComponent {
   handleChange = (e) => {
     const currency = JSON.parse(e.target.value);
-    this.props.selectCurrency(currency);
+    this.props.selectCurrency(currency,window.location.pathname);
   };
 
   renderOptions = (cur) => {
