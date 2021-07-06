@@ -1,16 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
+import { selectCurrency } from "../../store/actionCreators";
 
 import "./languageSelector.css";
 
 class LanguageSelector extends React.PureComponent {
   handleChange = (e) => {
     const currency = JSON.parse(e.target.value);
-    this.props.changeCurrency(currency);
+    this.props.selectCurrency(currency);
   };
 
   renderOptions = (cur) => {
-    const selected =
-      JSON.stringify(cur) === JSON.stringify(this.props.selectedCurrency);
+    const selected = cur.uuid === this.props?.selectedCurrency?.uuid;
     if (!selected) {
       return (
         <option key={cur.uuid} value={JSON.stringify(cur)}>
@@ -41,4 +42,11 @@ class LanguageSelector extends React.PureComponent {
   }
 }
 
-export default LanguageSelector;
+const mapStateToProps = (state) => {
+  return {
+    currencies: state.currencies,
+    selectedCurrency: state.selectedCurrency,
+  };
+};
+
+export default connect(mapStateToProps, { selectCurrency })(LanguageSelector);
