@@ -1,18 +1,26 @@
 import { getFiatCurrencies, getAllCoins, getSingleCoin } from "../utils/api";
-import { DEFAULT_CURRENCY } from "../utils/constants";
+import { doSorting } from "../utils/helpers";
 
 import {
   FETCH_FIAT_CURRENCIES,
   SELECT_REFERENCE_CURRENCY,
-  FETCH_CRYPTO_COINS,
   FETCH_SINGLE_COIN,
+  SET_COINS,
 } from "./actionTypes";
+
+
+export const setCoins = (coins) => {
+  return {
+    type: SET_COINS,
+    payload : coins
+  }
+}
 
 export const fetchCoins = () => async (dispatch, getState) => {
   let referenceCurrency = getState().selectedCurrency;
   const coins = await getAllCoins(referenceCurrency.uuid);
   dispatch({
-    type: FETCH_CRYPTO_COINS,
+    type: SET_COINS,
     payload: coins.data.data.coins,
   });
 };
@@ -42,11 +50,18 @@ export const selectCurrency = (currency,pathname) => async (dispatch, getState) 
     payload: currency,
   });
   if (!(oldSelectedCurrency && oldSelectedCurrency.uuid === currency.uuid)) {
-    console.log("entered");
-    console.log(pathname.substr(6));
     if(pathname === "/")
       dispatch(fetchCoins());
     else if(pathname.startsWith("/coin/"))
       dispatch(fetchSingleCoin(pathname.substr(6)));
     }
+}
+
+export const sortCoins = (key) => (dispatch,getState) => {
+  let coins = getState().coins;
+  doSorting(coins,key);
+  dispatch({
+    type: SET_COINS,
+    payload: coins
+  })
 }
