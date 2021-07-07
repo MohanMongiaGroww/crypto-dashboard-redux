@@ -87,3 +87,25 @@ export function getCoinSuggestion(value, coins) {
     return false;
   });
 }
+
+
+
+ export const doSorting = (coins, key) => {
+   const ascending = key.startsWith("ASCENDING_");
+   key=key.split("_")[1];
+    coins.sort((coinA, coinB) => {
+      if (key !== "name")
+        return ascending
+          ? coinB[key] - coinA[key]
+          : coinA[key] - coinB[key];
+      else {
+        return ascending
+          ? coinA[key] > coinB[key]
+            ? 1
+            : -1
+          : coinA[key] < coinB[key]
+          ? 1
+          : -1;
+      }
+    });
+  };

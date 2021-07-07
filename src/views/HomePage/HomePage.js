@@ -6,28 +6,25 @@ import LanguageSelector from "../../ui/LanguageSelector/LanguageSelector";
 import Table from "../../ui/Table/CoinTable/Table";
 import Error from "../../ui/Error/Error";
 
-import { getAllCoins } from "../../utils/api";
+// import { getAllCoins } from "../../utils/api";
 import { ERROR_CODES, REFRESH_TIMES } from "../../utils/constants";
-import { getLocalStorageItem, setLocalStorageItem } from "../../utils/helpers";
+// import { getLocalStorageItem, setLocalStorageItem } from "../../utils/helpers";
 
-import { fetchCoins } from "../../store/actionCreators";
+import { fetchCoins, sortCoins } from "../../store/actionCreators";
 
 import "./homePage.css";
 
 class HomePage extends React.Component {
   state = {
     error: "",
+    // sortingBool : {
+    //   price: true,
+    //   name: true,
+    //   marketCap: true,
+    //   btcPrice: true,
+    // },
+    sortedField: "",
   };
-
-  // sortingBool = {
-  //   price: true,
-  //   name: true,
-  //   marketCap: true,
-  //   btcPrice: true,
-  // };
-
-  // sortedField = "";
-
 
   // apiCallerFunction = () => {
   //   getAllCoins(this.props.selectedCurrency.uuid)
@@ -65,48 +62,40 @@ class HomePage extends React.Component {
   //     });
   // };
 
-  // doSorting = (sortedCoins, field) => {
-  //   sortedCoins.sort((coinA, coinB) => {
-  //     const ascending = this.sortingBool[field];
-  //     if (field !== "name")
-  //       return ascending
-  //         ? coinB[field] - coinA[field]
-  //         : coinA[field] - coinB[field];
-  //     else {
-  //       return ascending
-  //         ? coinA[field] > coinB[field]
-  //           ? 1
-  //           : -1
-  //         : coinA[field] < coinB[field]
-  //         ? 1
-  //         : -1;
-  //     }
-  //   });
-  // };
+  whenHeadingIsClicked = (field) => {
+    let sortedField = this.state.sortedField;
+    let newField = "";
+    if (sortedField.endsWith(field)) {
+      if (sortedField.startsWith("ASCENDING_")) {
+        newField = `DESCENDING_${field}`;
+      } else if (sortedField.startsWith("DESCENDING_")) {
+        newField = `ASCENDING_${field}`;
+      }
+    } else {
+      newField = `ASCENDING_${field}`;
+    }
+    this.setState({
+      sortedField: newField,
+    });
 
-  // whenHeadingIsClicked = (field) => {
-  //   const sortedCoins = [...this.props.coins];
-  //   this.sortedField = field;
-
-  //   this.doSorting(sortedCoins, field);
-
-  //   this.sortingBool[field] = !this.sortingBool[field];
-
-  //   this.setState({
-  //     coins: [...sortedCoins],
-  //   });
-  // };
+    this.props.sortCoins(newField);
+  };
 
   componentDidMount() {
     this.props.fetchCoins();
-    this.fetchCoinsTimerId = setInterval(this.props.fetchCoins,REFRESH_TIMES.API_REFETCH_TIME);
+    this.fetchCoinsTimerId = setInterval(
+      this.props.fetchCoins,
+      REFRESH_TIMES.API_REFETCH_TIME
+    );
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.selectedCurrency.uuid !== this.props.selectedCurrency.uuid)
-    {
+    if (prevProps.selectedCurrency.uuid !== this.props.selectedCurrency.uuid) {
       clearInterval(this.fetchCoinsTimerId);
-      this.fetchCoinsTimerId = setInterval(this.props.fetchCoins,REFRESH_TIMES.API_REFETCH_TIME);
+      this.fetchCoinsTimerId = setInterval(
+        this.props.fetchCoins,
+        REFRESH_TIMES.API_REFETCH_TIME
+      );
     }
   }
 
@@ -125,7 +114,7 @@ class HomePage extends React.Component {
         <SearchBarHolder coins={this.props.coins} />
         <Table
           coins={this.props.coins}
-          // whenHeadingIsClicked={this.whenHeadingIsClicked}
+          whenHeadingIsClicked={this.whenHeadingIsClicked}
           currency={this.props.selectedCurrency}
         />
       </div>
@@ -140,8 +129,8 @@ class HomePage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     coins: state.coins,
-    selectedCurrency : state.selectedCurrency
+    selectedCurrency: state.selectedCurrency,
   };
 };
 
-export default connect(mapStateToProps, { fetchCoins })(HomePage);
+export default connect(mapStateToProps, { fetchCoins, sortCoins })(HomePage);
