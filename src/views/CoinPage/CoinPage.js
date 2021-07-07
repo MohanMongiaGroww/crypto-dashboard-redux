@@ -146,15 +146,16 @@ class CoinPage extends Component {
 
   componentDidMount() {
     let coinUuid = this.props.selectedCoin.uuid;
-    if(coinUuid === undefined || coinUuid === null)
-    {
+    if (coinUuid === undefined || coinUuid === null) {
       let path = window.location.pathname;
-      if(path.startsWith("/coin/"))
-      {
-        coinUuid = path.substr(6);
-      }
+      coinUuid = path.substr(6);
     }
     this.props.fetchSingleCoin(coinUuid);
+    this.fetchSingleCoinTimerId = setInterval(
+      this.props.fetchSingleCoin,
+      REFRESH_TIMES.API_REFETCH_TIME,
+      coinUuid
+    );
     // const markets = getLocalStorageItem("markets");
     // if (markets) {
     //   this.setState({
@@ -197,30 +198,43 @@ class CoinPage extends Component {
 
   // errorDisplayTimerId = null;
 
-  // componentDidUpdate() {
-  //   if (this.state.error?.length > 0) {
-  //     this.errorDisplayTimerId = setTimeout(() => {
-  //       this.setState({
-  //         error: "",
-  //       });
-  //     }, 5000);
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedCurrency.uuid !== this.props.selectedCurrency.uuid) {
+      clearInterval(this.fetchSingleCoinTimerId);
+      let coinUuid = this.props.selectedCoin.uuid;
+      if (coinUuid === undefined || coinUuid === null) {
+        let path = window.location.pathname;
+        coinUuid = path.substr(6);
+      }
+      this.fetchSingleCoinTimerId = setInterval(
+        this.props.fetchSingleCoin,
+        REFRESH_TIMES.API_REFETCH_TIME,
+        coinUuid
+      );
+    }
+    // if (this.state.error.length > 0) {
+    //   setTimeout(() => {
+    //     this.setState({
+    //       error: "",
+    //     });
+    //   }, 5000);
+    // }
+  }
 
-  // componentWillUnmount() {
-  //   if (this.coinApiCallTimerId) {
-  //     clearInterval(this.coinApiCallTimerId);
-  //     this.coinApiCallTimerId = null;
-  //   }
-  //   if (this.marketApiCallTimerId) {
-  //     clearInterval(this.marketApiCallTimerId);
-  //     this.marketApiCallTimerId = null;
-  //   }
-  //   if (this.errorDisplayTimerId) {
-  //     clearTimeout(this.errorDisplayTimerId);
-  //     this.errorDisplayTimerId = null;
-  //   }
-  // }
+  componentWillUnmount() {
+    if (this.fetchSingleCoinTimerId) {
+      clearInterval(this.fetchSingleCoinTimerId);
+      this.fetchSingleCoinTimerId = null;
+    }
+    // if (this.marketApiCallTimerId) {
+    //   clearInterval(this.marketApiCallTimerId);
+    //   this.marketApiCallTimerId = null;
+    // }
+    // if (this.errorDisplayTimerId) {
+    //   clearTimeout(this.errorDisplayTimerId);
+    //   this.errorDisplayTimerId = null;
+    // }
+  }
 
   // shouldComponentUpdate(nextProps, newState) {
   //   if (
@@ -323,9 +337,9 @@ class CoinPage extends Component {
   };
 
   getFinalRender = () => {
-    const coin = this.props.coin
+    const coin = this.props.coin;
     const coinDataRecieved = coin.uuid;
-    console.log(coinDataRecieved)
+    console.log(coinDataRecieved);
     return coinDataRecieved ? (
       <div className="parentContainer101CoinPage">
         <Error error={this.state.error} />
@@ -482,9 +496,9 @@ class CoinPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    coin : state.coin,
-    selectedCurrency : state.selectedCurrency
-  }
-}
+    coin: state.coin,
+    selectedCurrency: state.selectedCurrency,
+  };
+};
 
-export default connect(mapStateToProps, {fetchSingleCoin})(CoinPage);
+export default connect(mapStateToProps, { fetchSingleCoin })(CoinPage);

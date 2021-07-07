@@ -12,55 +12,12 @@ import defaultCoinSVG from "./static/defaultCoin.svg";
 
 class App extends Component {
 
-  getCurrencies = () => {
-    this.props.fetchCurrencies();
-    // getFiatCurrencies()
-    //   .then((result) => {
-    //     const currencies = result.data?.data?.currencies;
-    //     if (currencies === null || currencies === undefined) {
-    //       return;
-    //     }
-    //     this.setState({
-    //       currencies: currencies,
-    //       selectedCurrency: currencies[DEFAULT_CURRENCY.INDEX],
-    //     });
-    //     setLocalStorageItem("currencies", currencies);
-    //     setLocalStorageItem(
-    //       "selectedCurrency",
-    //       currencies[DEFAULT_CURRENCY.INDEX]
-    //     ); // by default USD currency is selected
-    //   })
-    //   .catch((err) => {
-    //     if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-    //       this.setState({
-    //         error: err.response.data.message,
-    //       });
-    //     } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
-    //       this.setState({
-    //         error: err.response.data.message,
-    //       });
-    //     } else {
-    //       this.setState({
-    //         error: err.message,
-    //       });
-    //     }
-    //   });
-  };
-
   componentDidMount() {
-    // const getCurrencies = getLocalStorageItem("currencies");
-    // let getSelectedCurrency = getLocalStorageItem("selectedCurrency");
-    // if (getCurrencies === null || getCurrencies === undefined) {
-      this.props.fetchCurrencies();
-    // } else {
-    //   if (getSelectedCurrency === null || getSelectedCurrency === undefined) {
-    //     getSelectedCurrency = getCurrencies[DEFAULT_CURRENCY.INDEX]; // USD currency
-    //   }
-    //   this.setState({
-    //     currencies: getCurrencies,
-    //     selectedCurrency: getSelectedCurrency,
-    //   });
-    // }
+      let currencies = this.props.currencies;
+      if(currencies === null || currencies === undefined || currencies.length === 0)
+      {
+        this.props.fetchCurrencies();
+      }
   }
 
   getCoinForCoinPage = (uuid) => {

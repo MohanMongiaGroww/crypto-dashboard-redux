@@ -28,7 +28,6 @@ class HomePage extends React.Component {
 
   // sortedField = "";
 
-  // apiCallTimerId = null;
 
   // apiCallerFunction = () => {
   //   getAllCoins(this.props.selectedCurrency.uuid)
@@ -66,13 +65,6 @@ class HomePage extends React.Component {
   //     });
   // };
 
-  // apiCaller = () => {
-  //   this.apiCallTimerId = setInterval(
-  //     this.apiCallerFunction,
-  //     REFRESH_TIMES.API_REFETCH_TIME
-  //   );
-  // };
-
   // doSorting = (sortedCoins, field) => {
   //   sortedCoins.sort((coinA, coinB) => {
   //     const ascending = this.sortingBool[field];
@@ -107,89 +99,23 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     this.props.fetchCoins();
-    // const Coins = getLocalStorageItem("Coins");
-    // if (Coins) {
-    //   this.setState({
-    //     coins: Coins,
-    //   });
-    // }
-    // Promise.resolve()
-    //   .then(() => {
-    //     this.apiCallerFunction();
-    //   })
-    //   .then((result) => {
-    //     this.apiCaller();
-    //   })
-    //   .catch((err) => {
-    //     if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-    //       this.setState({
-    //         error: err.response.data.message,
-    //       });
-    //     } else {
-    //       this.setState({
-    //         error: err.message,
-    //       });
-    //     }
-    //   });
+    this.fetchCoinsTimerId = setInterval(this.props.fetchCoins,REFRESH_TIMES.API_REFETCH_TIME);
   }
 
-  // shouldComponentUpdate(newProps, newState) {
-  //   if (
-  //     JSON.stringify(newProps.selectedCurrency) !==
-  //     JSON.stringify(this.props.selectedCurrency)
-  //   ) {
-  //     if (this.apiCallTimerId) {
-  //       clearInterval(this.apiCallTimerId);
-  //       this.apiCallTimerId = null;
-  //     }
-  //     Promise.resolve()
-  //       .then(() => {
-  //         this.apiCallerFunction();
-  //       })
-  //       .then((result) => this.apiCaller())
-  //       .then((result) => true)
-  //       .catch((err) => {
-  //         if (err.response?.status === ERROR_CODES.UNPROCESSABLE_ENTITY) {
-  //           this.setState({
-  //             error: err.response.data.message,
-  //           });
-  //         } else if (err.response?.status === ERROR_CODES.COIN_NOT_FOUND) {
-  //           this.setState({
-  //             error: err.response.data.message,
-  //           });
-  //         } else {
-  //           this.setState({
-  //             error: err.message,
-  //           });
-  //         }
-  //       });
-  //   }
-  //   if (JSON.stringify(newState.coins) !== JSON.stringify(this.props.coins)) {
-  //     return true;
-  //   }
-  //   if (JSON.stringify(newState.error) !== JSON.stringify(this.state.error)) {
-  //     return true;
-  //   }
+  componentDidUpdate(prevProps) {
+    if(prevProps.selectedCurrency.uuid !== this.props.selectedCurrency.uuid)
+    {
+      clearInterval(this.fetchCoinsTimerId);
+      this.fetchCoinsTimerId = setInterval(this.props.fetchCoins,REFRESH_TIMES.API_REFETCH_TIME);
+    }
+  }
 
-  //   return false;
-  // }
-
-  // componentDidUpdate() {
-  //   if (this.state.error.length > 0) {
-  //     setTimeout(() => {
-  //       this.setState({
-  //         error: "",
-  //       });
-  //     }, 5000);
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   if (this.apiCallTimerId) {
-  //     clearInterval(this.apiCallTimerId);
-  //     this.apiCallTimerId = null;
-  //   }
-  // }
+  componentWillUnmount() {
+    if (this.fetchCoinsTimerId) {
+      clearInterval(this.fetchCoinsTimerId);
+      this.fetchCoinsTimerId = null;
+    }
+  }
 
   getFinalRender = () => {
     return (
